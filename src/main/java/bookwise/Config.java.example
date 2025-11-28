@@ -1,0 +1,33 @@
+package bookwise;
+
+
+import java.io.File;
+
+public class Config {
+
+    // Database Configuration
+    public static final class Database {
+        public static final String HOST = "localhost";
+        public static final int PORT = 3306;
+        public static final String NAME = "BookWise";  // Capital B and W
+        public static final String USER = "root";
+        public static final String PASSWORD = "";
+
+        public static String getConnectionString() {
+            return String.format("jdbc:mysql://%s:%d/%s", HOST, PORT, NAME);
+        }
+
+        // Connection options for better performance
+        public static String getConnectionStringWithOptions() {
+            return getConnectionString() + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+        }
+    }
+
+    // Email Configuration (SMTP)
+    public static final class SMTP {
+        public static final String HOST = "smtp.gmail.com";
+        public static final int PORT = 587;
+        public static final String USER = "noreply@gmail.com";
+        public static final String PASSWORD = "";
+    }
+}
