@@ -50,7 +50,7 @@ public class AddUserModel extends javax.swing.JFrame {
         textBoxFName = new javax.swing.JTextField();
         numericUpDownId = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(529, 547));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -83,6 +83,11 @@ public class AddUserModel extends javax.swing.JFrame {
         buttonSave.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonSave.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonSave.setPreferredSize(new java.awt.Dimension(462, 50));
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         textBoxConfirmPassword.setPreferredSize(new java.awt.Dimension(220, 29));
         textBoxConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
@@ -267,6 +272,7 @@ public class AddUserModel extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void textBoxLNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBoxLNameActionPerformed
@@ -288,6 +294,10 @@ public class AddUserModel extends javax.swing.JFrame {
     private void textBoxPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBoxPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textBoxPasswordActionPerformed
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
      * @param args the command line arguments

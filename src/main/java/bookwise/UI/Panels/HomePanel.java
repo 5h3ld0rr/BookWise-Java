@@ -8,12 +8,12 @@ package bookwise.UI.Panels;
  *
  * @author wsr
  */
-public class HomeControlPanel extends javax.swing.JPanel {
+public class HomePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form HomeControlPanel
      */
-    public HomeControlPanel() {
+    public HomePanel() {
         initComponents();
     }
 

@@ -8,12 +8,12 @@ package bookwise.UI.Panels;
  *
  * @author wsr
  */
-public class HistoryControlPanel extends javax.swing.JPanel {
+public class HistoryPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form HistoryControlPanel
      */
-    public HistoryControlPanel() {
+    public HistoryPanel() {
         initComponents();
     }
 
@@ -38,9 +38,6 @@ public class HistoryControlPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(30, 41, 59));
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS java\\LibrarySystem\\images\\filter.png")); // NOI18N
-        jLabel2.setMaximumSize(new java.awt.Dimension(0, 0));
-        jLabel2.setMinimumSize(new java.awt.Dimension(0, 0));
         jLabel2.setPreferredSize(new java.awt.Dimension(37, 37));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

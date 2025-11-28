@@ -30,9 +30,7 @@ public class BookWise {
             // Launch the application
             
             java.awt.EventQueue.invokeLater(() -> {
-                SignInForm form = new SignInForm();
-                form.setLocationRelativeTo(null);
-                form.setVisible(true);
+                 new SignInForm().setVisible(true);
             });
         } else {
             System.err.println("✗ Failed to establish database connection!");

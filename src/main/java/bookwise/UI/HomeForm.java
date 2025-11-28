@@ -6,12 +6,13 @@ package bookwise.UI;
 
 import bookwise.UI.Panels.BooksPanel;
 import bookwise.UI.Panels.BorrowBookPanel;
-import bookwise.UI.Panels.HistoryControlPanel;
-import bookwise.UI.Panels.HomeControlPanel;
+import bookwise.UI.Panels.HistoryPanel;
+import bookwise.UI.Panels.HomePanel;
 import bookwise.UI.Panels.ReturnBookPanel;
 import bookwise.UI.Panels.RulesPanel;
 import bookwise.UI.Panels.UsersPanel;
 import java.awt.BorderLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,13 +21,15 @@ import javax.swing.JPanel;
  * @author wsr
  */
 public class HomeForm extends javax.swing.JFrame {
+    JButton[] SideBarBtns;
 
     /**
      * Creates new form HomeFrom
      */
     public HomeForm() {
         initComponents();
-        showPanel(new HomeControlPanel());
+        SideBarBtns = new JButton[] {buttonHome, buttonBorrow, buttonReturn, buttonBooks, buttonUsers, buttonHistory, buttonRules };
+        showPanel(new HomePanel());
     }
 
     /**
@@ -68,15 +71,19 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(266, 675));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
         jLabel1.setText("Book Wise");
+        jLabel1.setIconTextGap(8);
 
         buttonHome.setBackground(new java.awt.Color(37, 56, 140));
-        buttonHome.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonHome.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHome.setForeground(new java.awt.Color(255, 255, 255));
         buttonHome.setText("Home");
-        buttonHome.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonHome.setBorder(null);
+        buttonHome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonHome.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonHome.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonHome.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonHome.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -86,10 +93,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonBorrow.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonBorrow.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBorrow.setForeground(new java.awt.Color(30, 41, 59));
+        buttonBorrow.setBorder(null);
+        buttonBorrow.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonBorrow.setLabel("Borrow");
-        buttonBorrow.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonBorrow.setMargin(new java.awt.Insets(10, 10, 10, 10));
         buttonBorrow.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonBorrow.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonBorrow.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -99,10 +108,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonReturn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonReturn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonReturn.setForeground(new java.awt.Color(30, 41, 59));
         buttonReturn.setText("Return");
-        buttonReturn.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonReturn.setBorder(null);
+        buttonReturn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonReturn.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonReturn.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonReturn.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonReturn.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -112,10 +123,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonBooks.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonBooks.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBooks.setForeground(new java.awt.Color(30, 41, 59));
         buttonBooks.setText("All Books");
-        buttonBooks.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonBooks.setBorder(null);
+        buttonBooks.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonBooks.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonBooks.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonBooks.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonBooks.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -125,10 +138,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
         buttonUsers.setText("All  Users");
-        buttonUsers.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonUsers.setBorder(null);
+        buttonUsers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonUsers.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonUsers.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonUsers.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonUsers.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -138,10 +153,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonHistory.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonHistory.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHistory.setForeground(new java.awt.Color(30, 41, 59));
         buttonHistory.setText("History");
-        buttonHistory.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonHistory.setBorder(null);
+        buttonHistory.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonHistory.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonHistory.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonHistory.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonHistory.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -151,10 +168,12 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonRules.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        buttonRules.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonRules.setForeground(new java.awt.Color(30, 41, 59));
         buttonRules.setText("Rules");
-        buttonRules.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        buttonRules.setBorder(null);
+        buttonRules.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonRules.setMargin(new java.awt.Insets(0, 0, 0, 0));
         buttonRules.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonRules.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonRules.setPreferredSize(new java.awt.Dimension(236, 50));
@@ -182,72 +201,80 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4))
-                                .addGap(13, 13, 13))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                    .addComponent(buttonBooks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(buttonReturn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(12, 12, 12))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(buttonBorrow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(12, 12, 12)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(buttonReturn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonBooks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(buttonRules, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(11, Short.MAX_VALUE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGap(0, 0, 0))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(buttonUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                            .addComponent(buttonHistory, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonRules, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(12, 12, 12))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGap(35, 35, 35)
                 .addComponent(buttonHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(buttonBorrow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonReturn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonBooks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel4)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonRules, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(0, 82, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7))
+                    .addComponent(buttonBooks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addComponent(buttonUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(buttonHistory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(buttonRules, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                 .addComponent(buttonLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(248, 248, 255));
@@ -299,13 +326,13 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(textBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,18 +365,13 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void buttonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistoryActionPerformed
-        // TODO add your handling code here:
-        showPanel(new HistoryControlPanel());
-    }//GEN-LAST:event_buttonHistoryActionPerformed
 
     private void buttonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLogoutActionPerformed
         // TODO add your handling code here:
@@ -357,35 +379,47 @@ public class HomeForm extends javax.swing.JFrame {
         new SignInForm().setVisible(true);
     }//GEN-LAST:event_buttonLogoutActionPerformed
 
-    private void buttonHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHomeActionPerformed
+    private void buttonRulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRulesActionPerformed
         // TODO add your handling code here:
-        showPanel(new HomeControlPanel());
-    }//GEN-LAST:event_buttonHomeActionPerformed
+        HighlightButton(buttonRules);
+        showPanel(new RulesPanel());
+    }//GEN-LAST:event_buttonRulesActionPerformed
 
-    private void buttonBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBorrowActionPerformed
+    private void buttonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistoryActionPerformed
         // TODO add your handling code here:
-        showPanel(new BorrowBookPanel());
-    }//GEN-LAST:event_buttonBorrowActionPerformed
-
-    private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReturnActionPerformed
-        // TODO add your handling code here:
-        showPanel(new ReturnBookPanel());
-    }//GEN-LAST:event_buttonReturnActionPerformed
-
-    private void buttonBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBooksActionPerformed
-        // TODO add your handling code here:
-        showPanel(new BooksPanel());
-    }//GEN-LAST:event_buttonBooksActionPerformed
+        HighlightButton(buttonHistory);
+        showPanel(new HistoryPanel());
+    }//GEN-LAST:event_buttonHistoryActionPerformed
 
     private void buttonUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUsersActionPerformed
         // TODO add your handling code here:
+        HighlightButton(buttonUsers);
         showPanel(new UsersPanel());
     }//GEN-LAST:event_buttonUsersActionPerformed
 
-    private void buttonRulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRulesActionPerformed
+    private void buttonBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBooksActionPerformed
         // TODO add your handling code here:
-        showPanel(new RulesPanel());
-    }//GEN-LAST:event_buttonRulesActionPerformed
+        HighlightButton(buttonBooks);
+        showPanel(new BooksPanel());
+    }//GEN-LAST:event_buttonBooksActionPerformed
+
+    private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReturnActionPerformed
+        // TODO add your handling code here:
+        HighlightButton(buttonReturn);
+        showPanel(new ReturnBookPanel());
+    }//GEN-LAST:event_buttonReturnActionPerformed
+
+    private void buttonBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBorrowActionPerformed
+        // TODO add your handling code here:
+        HighlightButton(buttonBorrow);
+        showPanel(new BorrowBookPanel());
+    }//GEN-LAST:event_buttonBorrowActionPerformed
+
+    private void buttonHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHomeActionPerformed
+        // TODO add your handling code here:
+        HighlightButton(buttonHome);
+        showPanel(new HomePanel());
+    }//GEN-LAST:event_buttonHomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -431,6 +465,23 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel3.revalidate();
         jPanel3.repaint();
     }
+    
+    private void HighlightButton(JButton btn)
+     {
+        ResetAllButtonStyles();
+        btn.setBackground(new java.awt.Color(37, 56, 140));
+        btn.setForeground (new java.awt.Color(255, 255, 255));
+     }
+
+     private void ResetAllButtonStyles()
+     {
+         for(JButton btn : SideBarBtns)
+         {
+
+                btn.setBackground(new java.awt.Color(255, 255, 255));
+                btn.setForeground (new java.awt.Color(58, 53, 78));
+         }
+     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBooks;

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package bookwise.UI.Panels;
+import bookwise.UI.AddBookModel;
 
 /**
  *
@@ -41,12 +42,16 @@ public class BooksPanel extends javax.swing.JPanel {
         jButton2.setBackground(new java.awt.Color(37, 56, 140));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS java\\LibrarySystem\\images\\plus.png")); // NOI18N
         jButton2.setText("Add a New Book");
         jButton2.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton2.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton2.setMinimumSize(new java.awt.Dimension(0, 0));
         jButton2.setPreferredSize(new java.awt.Dimension(165, 41));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,6 +74,12 @@ public class BooksPanel extends javax.swing.JPanel {
                 .addContainerGap(469, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       
+        AddBookModel addBookFrame = new AddBookModel();
+        addBookFrame.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
