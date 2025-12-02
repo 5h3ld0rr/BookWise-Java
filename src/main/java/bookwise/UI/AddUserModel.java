@@ -4,6 +4,8 @@
  */
 package bookwise.UI;
 
+import bookwise.DataAccess.User;
+
 /**
  *
  * @author wsr
@@ -26,6 +28,7 @@ public class AddUserModel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jToolBar1 = new javax.swing.JToolBar();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         comboBoxRole = new javax.swing.JComboBox<>();
@@ -51,15 +54,27 @@ public class AddUserModel extends javax.swing.JFrame {
         numericUpDownId = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add  a  new User");
         setPreferredSize(new java.awt.Dimension(529, 547));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jToolBar1.setRollover(true);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setPreferredSize(new java.awt.Dimension(529, 547));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("Password");
 
-        comboBoxRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Staff", "Student" }));
+        comboBoxRole.setMaximumSize(new java.awt.Dimension(0, 0));
+        comboBoxRole.setMinimumSize(new java.awt.Dimension(0, 0));
         comboBoxRole.setPreferredSize(new java.awt.Dimension(145, 29));
+        comboBoxRole.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxRoleActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Email");
@@ -96,6 +111,9 @@ public class AddUserModel extends javax.swing.JFrame {
             }
         });
 
+        txtBoxPhoneNo.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        txtBoxPhoneNo.setMaximumSize(new java.awt.Dimension(0, 0));
+        txtBoxPhoneNo.setMinimumSize(new java.awt.Dimension(0, 0));
         txtBoxPhoneNo.setPreferredSize(new java.awt.Dimension(145, 29));
         txtBoxPhoneNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,9 +121,12 @@ public class AddUserModel extends javax.swing.JFrame {
             }
         });
 
-        checkBoxShowPassword.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        checkBoxShowPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         checkBoxShowPassword.setLabel("Show Password");
 
+        textBoxNic.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        textBoxNic.setMaximumSize(new java.awt.Dimension(0, 0));
+        textBoxNic.setMinimumSize(new java.awt.Dimension(0, 0));
         textBoxNic.setPreferredSize(new java.awt.Dimension(145, 29));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -158,10 +179,6 @@ public class AddUserModel extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(349, 349, 349)
-                .addComponent(checkBoxShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,32 +196,44 @@ public class AddUserModel extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(numericUpDownId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textBoxNic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textBoxEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(textBoxEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtBoxPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addGap(29, 29, 29)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(41, 41, 41)
+                                        .addComponent(jLabel6))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtBoxPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(comboBoxRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jLabel7))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(comboBoxRole, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(256, 256, 256)
                         .addComponent(jLabel3))
                     .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textBoxAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(239, 239, 239)
-                        .addComponent(jLabel10))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(textBoxPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(textBoxConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(textBoxAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addGap(239, 239, 239)
+                            .addComponent(jLabel10)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(checkBoxShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(textBoxPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(48, 48, 48)
+                            .addComponent(textBoxConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +254,7 @@ public class AddUserModel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numericUpDownId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textBoxEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
@@ -248,11 +277,11 @@ public class AddUserModel extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textBoxPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(textBoxConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addComponent(checkBoxShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -261,14 +290,18 @@ public class AddUserModel extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 86, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -293,11 +326,211 @@ public class AddUserModel extends javax.swing.JFrame {
 
     private void textBoxPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBoxPasswordActionPerformed
         // TODO add your handling code here:
+        if (checkBoxShowPassword.getState()){
+            textBoxPassword.setEchoChar((char) 0);
+        }
+        else {
+            textBoxPassword.setEchoChar('\u2022');
+        }
     }//GEN-LAST:event_textBoxPasswordActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        // TODO add your handling code here:
+        // Validate input fields
+        if (!validateInputs()) {
+            return;
+        }
+
+        // Create a User object and populate it with form data
+        User user = new User();
+        user.setFirstName(textBoxFName.getText().trim());
+        user.setLastName(textBoxLName.getText().trim());
+        user.setEmail(textBoxEmail.getText().trim());
+        user.setNic(textBoxNic.getText().trim());
+        user.setPhone(txtBoxPhoneNo.getText().trim());
+        user.setAddress(textBoxAddress.getText().trim());
+        String selectedRole = (String) comboBoxRole.getSelectedItem();
+        user.setRole(selectedRole);
+        
+        // Only set ID and password for Admin role
+        if ("Admin".equals(selectedRole)) {
+            user.setId((Integer) numericUpDownId.getValue());
+            user.setPassword(new String(textBoxPassword.getPassword()).trim());
+        } else {
+            user.setPassword(null);  // Staff and Students are beneficiaries, not system users
+        }
+
+        // Check for duplicate email or NIC
+        if (user.isDuplicateEmailOrNic()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "User already exists with this Email or NIC.", 
+                "Duplicate User", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // For Admin role, also check for duplicate ID
+        if ("Admin".equals(selectedRole) && user.isRegistered()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "User already exists with this ID.", 
+                "Duplicate User", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Register the user
+        if (user.register()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "User added successfully!", 
+                "Success", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            clearForm();
+            this.dispose();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Failed to add user. Please try again.", 
+                "Error", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private void comboBoxRoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxRoleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxRoleActionPerformed
+
+    private boolean validateInputs() {
+        // Check first name
+        if (textBoxFName.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "First Name is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxFName.requestFocus();
+            return false;
+        }
+
+        // Check last name
+        if (textBoxLName.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Last Name is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxLName.requestFocus();
+            return false;
+        }
+
+        // Check email
+        if (textBoxEmail.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Email is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxEmail.requestFocus();
+            return false;
+        }
+
+        // Validate email format
+        if (!isValidEmail(textBoxEmail.getText().trim())) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Please enter a valid email address.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxEmail.requestFocus();
+            return false;
+        }
+
+        // Check NIC
+        if (textBoxNic.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "NIC is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxNic.requestFocus();
+            return false;
+        }
+
+        // Check phone number
+        if (txtBoxPhoneNo.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Phone Number is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            txtBoxPhoneNo.requestFocus();
+            return false;
+        }
+
+        // Check address
+        if (textBoxAddress.getText().trim().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Address is required.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            textBoxAddress.requestFocus();
+            return false;
+        }
+
+        // Check role
+        if (comboBoxRole.getSelectedItem() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Please select a valid role.", 
+                "Validation Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            comboBoxRole.requestFocus();
+            return false;
+        }
+
+        // Password is required only for Admin role
+        String selectedRole = (String) comboBoxRole.getSelectedItem();
+        if ("Admin".equals(selectedRole)) {
+            String password = new String(textBoxPassword.getPassword()).trim();
+            if (password.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Password is required for Admin role.", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                textBoxPassword.requestFocus();
+                return false;
+            }
+
+            if (password.length() < 6) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Password must be at least 6 characters long.", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                textBoxPassword.requestFocus();
+                return false;
+            }
+
+            String confirmPassword = new String(textBoxConfirmPassword.getPassword()).trim();
+            if (!password.equals(confirmPassword)) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Passwords do not match.", 
+                    "Validation Error", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                textBoxConfirmPassword.requestFocus();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return email.matches(emailRegex);
+    }
+
+    private void clearForm() {
+        numericUpDownId.setValue(0);
+        textBoxFName.setText("");
+        textBoxLName.setText("");
+        textBoxEmail.setText("");
+        textBoxNic.setText("");
+        txtBoxPhoneNo.setText("");
+        textBoxAddress.setText("");
+        textBoxPassword.setText("");
+        textBoxConfirmPassword.setText("");
+        comboBoxRole.setSelectedIndex(0);
+    }
 
     /**
      * @param args the command line arguments
@@ -349,6 +582,7 @@ public class AddUserModel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JSpinner numericUpDownId;
     private javax.swing.JTextField textBoxAddress;
     private javax.swing.JPasswordField textBoxConfirmPassword;

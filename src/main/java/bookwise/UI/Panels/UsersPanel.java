@@ -5,18 +5,24 @@
 package bookwise.UI.Panels;
 
 import bookwise.UI.AddUserModel;
+import bookwise.DataAccess.User;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author wsr
  */
 public class UsersPanel extends javax.swing.JPanel {
+    
+    private String acceptedRoles = "Staff,Student";
 
     /**
      * Creates new form UsersPanel
      */
     public UsersPanel() {
         initComponents();
+        refreshData();
+        configureTableColumns();
     }
 
     /**
@@ -32,6 +38,8 @@ public class UsersPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        dataGridViewUsers = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel1.setText("All  Users");
@@ -42,7 +50,14 @@ public class UsersPanel extends javax.swing.JPanel {
         jLabel2.setPreferredSize(new java.awt.Dimension(46, 19));
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox1.setForeground(new java.awt.Color(58, 53, 78));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All ", "Students", "Staff" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(101, 27));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(37, 56, 140));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -51,11 +66,33 @@ public class UsersPanel extends javax.swing.JPanel {
         jButton1.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton1.setPreferredSize(new java.awt.Dimension(165, 41));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        dataGridViewUsers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "ID", "First Name", "Last Name", "Email", "NIC", "Phone", "Address", "Role"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(dataGridViewUsers);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -63,14 +100,17 @@ public class UsersPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(jLabel1)
-                .addGap(295, 295, 295)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(295, 295, 295)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,7 +121,9 @@ public class UsersPanel extends javax.swing.JPanel {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(472, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -91,12 +133,73 @@ public class UsersPanel extends javax.swing.JPanel {
         addUserFrame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // Update accepted roles based on filter selection and refresh data
+        int selectedIndex = jComboBox1.getSelectedIndex();
+        if (selectedIndex == 0) {
+            acceptedRoles = "Staff,Student";
+        } else if (selectedIndex == 1) {
+            acceptedRoles = "Student";
+        } else if (selectedIndex == 2) {
+            acceptedRoles = "Staff";
+        }
+        refreshData();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    public void refreshData() {
+        User[] users = User.getAll(acceptedRoles);
+        DefaultTableModel model = (DefaultTableModel) dataGridViewUsers.getModel();
+        model.setRowCount(0);  // Clear existing rows
+        
+        for (User user : users) {
+            model.addRow(new Object[]{
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getNic(),
+                user.getPhone(),
+                user.getAddress(),
+                user.getRole()
+            });
+        }
+    }
+
+    private void configureTableColumns() {
+        // Configure column headers and properties
+        dataGridViewUsers.getColumnModel().getColumn(0).setHeaderValue("ID");
+        dataGridViewUsers.getColumnModel().getColumn(0).setPreferredWidth(50);
+        
+        dataGridViewUsers.getColumnModel().getColumn(1).setHeaderValue("First Name");
+        dataGridViewUsers.getColumnModel().getColumn(1).setPreferredWidth(100);
+        
+        dataGridViewUsers.getColumnModel().getColumn(2).setHeaderValue("Last Name");
+        dataGridViewUsers.getColumnModel().getColumn(2).setPreferredWidth(100);
+        
+        dataGridViewUsers.getColumnModel().getColumn(3).setHeaderValue("Email");
+        dataGridViewUsers.getColumnModel().getColumn(3).setPreferredWidth(150);
+        
+        dataGridViewUsers.getColumnModel().getColumn(4).setHeaderValue("NIC No");
+        dataGridViewUsers.getColumnModel().getColumn(4).setPreferredWidth(100);
+        
+        dataGridViewUsers.getColumnModel().getColumn(5).setHeaderValue("Phone No");
+        dataGridViewUsers.getColumnModel().getColumn(5).setPreferredWidth(100);
+        
+        dataGridViewUsers.getColumnModel().getColumn(6).setHeaderValue("Address");
+        dataGridViewUsers.getColumnModel().getColumn(6).setPreferredWidth(150);
+        
+        dataGridViewUsers.getColumnModel().getColumn(7).setHeaderValue("Role");
+        dataGridViewUsers.getColumnModel().getColumn(7).setPreferredWidth(80);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable dataGridViewUsers;
     // End of variables declaration//GEN-END:variables
 }
 

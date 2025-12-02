@@ -8,9 +8,13 @@ package bookwise.DataAccess;
  *
  * @author chira
  */
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
@@ -59,13 +63,32 @@ public class User {
     // ==================== Instance Methods ====================
 
     public boolean isRegistered() {
-        String sql = "SELECT COUNT(*) FROM users WHERE id = ? OR email = ? OR nic = ?";
+        String sql = "SELECT COUNT(*) FROM users WHERE (id = ? AND id > 0) OR email = ? OR nic = ?";
         try (Connection conn = DB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, this.id);
             pstmt.setString(2, this.email);
             pstmt.setString(3, this.nic);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isDuplicateEmailOrNic() {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ? OR nic = ?";
+        try (Connection conn = DB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, this.email);
+            pstmt.setString(2, this.nic);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
