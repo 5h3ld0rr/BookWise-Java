@@ -4,6 +4,11 @@
  */
 package bookwise.UI.Panels;
 
+import bookwise.DataAccess.User;
+import bookwise.DataAccess.Book;
+import bookwise.DataAccess.BookTransaction;
+import java.time.LocalDateTime;
+
 /**
  *
  * @author wsr
@@ -15,6 +20,112 @@ public class ReturnBookPanel extends javax.swing.JPanel {
      */
     public ReturnBookPanel() {
         initComponents();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        // Auto-populate user info when user ID is entered
+        jSpinner1.addChangeListener(e -> loadUserInfo());
+        
+        // Auto-populate book info when ISBN is entered
+        jTextField7.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                loadBookInfo();
+            }
+        });
+    }
+
+    private void loadUserInfo() {
+        try {
+            int userId = (Integer) jSpinner1.getValue();
+            if (userId <= 0) {
+                clearUserFields();
+                return;
+            }
+            
+            User user = User.getUserByUniqueIdentifier(userId, "", "");
+            if (user != null) {
+                jTextField1.setText(user.getFirstName() + " " + user.getLastName());
+                jTextField2.setText(user.getNic());
+                jTextField3.setText(user.getEmail());
+                jTextField4.setText(user.getPhone());
+                jTextField5.setText(user.getAddress());
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                clearUserFields();
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading user: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadBookInfo() {
+        try {
+            String isbn = jTextField7.getText().trim();
+            if (isbn.isEmpty()) {
+                clearBookFields();
+                return;
+            }
+            
+            Book book = Book.get(isbn);
+            if (book != null) {
+                jTextField6.setText(book.getTitle());      // Title
+                jTextField7.setText(isbn);                  // ISBN (keep the input)
+                jTextField8.setText(book.getAuthor());     // Author
+                jTextField9.setText(book.getCategory());   // Category
+                
+                // Calculate return details based on borrow date
+                calculateReturnDetails(book);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Book not found with ISBN: " + isbn, "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                clearBookFields();
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error loading book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void calculateReturnDetails(Book book) {
+        try {
+            // Get borrow date from book's transaction info
+            if (book.getBorrowDate() != null) {
+                java.sql.Timestamp ts = (java.sql.Timestamp) book.getBorrowDate();
+                LocalDateTime borrowDate = ts.toLocalDateTime();
+                
+                BookTransaction.ReturnDetails details = BookTransaction.getReturnDetailsByBorrowDate(borrowDate);
+                
+                jTextField9.setText(details.dueDate.toString());
+                jTextField10.setText(String.valueOf(details.daysOverdue));
+                jTextField11.setText(String.format("%.2f", details.fine));
+            }
+        } catch (Exception e) {
+            jTextField10.setText("0");
+            jTextField11.setText("0.00");
+        }
+    }
+
+    private void clearUserFields() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+    }
+
+    private void clearBookFields() {
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("0");
+        jTextField11.setText("0.00");
+    }
+
+    private void clearAllFields() {
+        jSpinner1.setValue(0);
+        clearUserFields();
+        clearBookFields();
     }
 
     /**
@@ -382,7 +493,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        loadUserInfo();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -390,11 +501,67 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
+        loadBookInfo();
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try {
+            int userId = (Integer) jSpinner1.getValue();
+            String isbn = jTextField7.getText().trim();
+            
+            if (userId <= 0 || isbn.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Please select a user and book", "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            User user = User.getUserByUniqueIdentifier(userId, "", "");
+            Book book = Book.get(isbn);
+            
+            if (user == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            if (book == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Book not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Get transaction ID from borrowed books
+            Book[] borrowedBooks = user.getBorrowedBooks();
+            int transactionId = -1;
+            
+            for (Book borrowedBook : borrowedBooks) {
+                if (borrowedBook.getId() == book.getId()) {
+                    transactionId = borrowedBook.getTransactionId();
+                    break;
+                }
+            }
+            
+            if (transactionId <= 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Book transaction not found. User may not have borrowed this book.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Process the return
+            if (BookTransaction.updateReturn(transactionId)) {
+                // Increase available books count
+                book.setId(book.getId());
+                book.returnBook();
+                
+                String fine = jTextField11.getText().trim();
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Book '" + book.getTitle() + "' returned successfully by " + user.getFirstName() + " " + user.getLastName() + 
+                    "\nFine: Rs. " + fine, 
+                    "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                clearAllFields();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Failed to return book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

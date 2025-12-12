@@ -351,14 +351,6 @@ public class AddUserModel extends javax.swing.JFrame {
         String selectedRole = (String) comboBoxRole.getSelectedItem();
         user.setRole(selectedRole);
         
-        // Only set ID and password for Admin role
-        if ("Admin".equals(selectedRole)) {
-            user.setId((Integer) numericUpDownId.getValue());
-            user.setPassword(new String(textBoxPassword.getPassword()).trim());
-        } else {
-            user.setPassword(null);  // Staff and Students are beneficiaries, not system users
-        }
-
         // Check for duplicate email or NIC
         if (user.isDuplicateEmailOrNic()) {
             javax.swing.JOptionPane.showMessageDialog(this, 
@@ -367,14 +359,47 @@ public class AddUserModel extends javax.swing.JFrame {
                 javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // For Admin role, also check for duplicate ID
-        if ("Admin".equals(selectedRole) && user.isRegistered()) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "User already exists with this ID.", 
-                "Duplicate User", 
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
+        
+        // Set ID and password based on role
+        if ("Admin".equals(selectedRole)) {
+            int adminId = (Integer) numericUpDownId.getValue();
+            if (adminId <= 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Admin ID must be greater than 0.", 
+                    "Invalid ID", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                numericUpDownId.requestFocus();
+                return;
+            }
+            user.setId(adminId);
+            user.setPassword(new String(textBoxPassword.getPassword()).trim());
+            
+            // Check for duplicate ID for Admin role
+            if (user.isRegistered()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User already exists with this ID.", 
+                    "Duplicate User", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        } else {
+            // For Staff and Student users, use provided ID or auto-generate if not provided
+            int userId = (Integer) numericUpDownId.getValue();
+            if (userId <= 0) {
+                // Auto-generate unique ID from timestamp if user didn't provide one
+                userId = (int) (System.currentTimeMillis() % 100000000);
+            }
+            user.setId(userId);
+            user.setPassword(null);  // Staff and Students are beneficiaries, not system users
+            
+            // Check for duplicate ID for non-Admin roles
+            if (user.isRegistered()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User already exists with this ID.", 
+                    "Duplicate User", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
         }
 
         // Register the user

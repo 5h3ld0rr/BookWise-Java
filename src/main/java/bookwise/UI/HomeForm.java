@@ -13,7 +13,6 @@ import bookwise.UI.Panels.RulesPanel;
 import bookwise.UI.Panels.UsersPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -22,6 +21,7 @@ import javax.swing.JPanel;
  */
 public class HomeForm extends javax.swing.JFrame {
     JButton[] SideBarBtns;
+    private BooksPanel currentBooksPanel;
 
     /**
      * Creates new form HomeFrom
@@ -60,7 +60,8 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        textBoxSearch = new javax.swing.JLabel();
+        jTextFieldSearch = new javax.swing.JTextField();
+        jButtonSearch = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -300,15 +301,22 @@ public class HomeForm extends javax.swing.JFrame {
         jLabel9.setMaximumSize(new java.awt.Dimension(0, 0));
         jLabel9.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        textBoxSearch.setBackground(new java.awt.Color(255, 255, 255));
-        textBoxSearch.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        textBoxSearch.setForeground(new java.awt.Color(30, 41, 59));
-        textBoxSearch.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Downloads\\LMS-java-main\\LibrarySystem\\images\\magnifying-glass.png")); // NOI18N
-        textBoxSearch.setText("Search");
-        textBoxSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        textBoxSearch.setMaximumSize(new java.awt.Dimension(0, 0));
-        textBoxSearch.setMinimumSize(new java.awt.Dimension(0, 0));
-        textBoxSearch.setPreferredSize(new java.awt.Dimension(450, 45));
+        jTextFieldSearch.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldSearch.setForeground(new java.awt.Color(30, 41, 59));
+        jTextFieldSearch.setText("Search by book name, author, ISBN or category");
+        jTextFieldSearch.setPreferredSize(new java.awt.Dimension(350, 45));
+
+        jButtonSearch.setBackground(new java.awt.Color(37, 56, 140));
+        jButtonSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButtonSearch.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonSearch.setText("Search");
+        jButtonSearch.setPreferredSize(new java.awt.Dimension(100, 45));
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBooks();
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -336,12 +344,14 @@ public class HomeForm extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(487, 487, 487))
+                                .addGap(337, 337, 337))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(textBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(293, 293, 293)))
+                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(392, 392, 392)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -353,10 +363,12 @@ public class HomeForm extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(textBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(566, Short.MAX_VALUE))
+                .addContainerGap(580, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -466,10 +478,33 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
     }
+
+    private void searchBooks() {
+        if (currentBooksPanel == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please navigate to Books section first", "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String searchQuery = jTextFieldSearch.getText().trim();
+        if (searchQuery.equals("Search by book name, author, ISBN or category") || searchQuery.isEmpty()) {
+            currentBooksPanel.refreshData();
+        } else {
+            currentBooksPanel.searchBooks(searchQuery);
+        }
+    }
+
     private void showPanel(JPanel panel) {
         jPanel3.removeAll();
         jPanel3.setLayout(new BorderLayout());
         jPanel3.add(panel, BorderLayout.CENTER);
+
+        // Track BooksPanel for search functionality
+        if (panel instanceof BooksPanel) {
+            currentBooksPanel = (BooksPanel) panel;
+            jTextFieldSearch.setText("Search by book name, author, ISBN or category");  // Reset search field when switching to BooksPanel
+        } else {
+            currentBooksPanel = null;
+        }
 
         // Refresh display
         jPanel3.revalidate();
@@ -502,6 +537,7 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonReturn;
     private javax.swing.JButton buttonRules;
     private javax.swing.JButton buttonUsers;
+    private javax.swing.JButton jButtonSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -514,6 +550,6 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel textBoxSearch;
+    private javax.swing.JTextField jTextFieldSearch;
     // End of variables declaration//GEN-END:variables
 }
