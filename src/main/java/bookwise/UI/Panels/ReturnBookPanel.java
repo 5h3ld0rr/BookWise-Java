@@ -4,11 +4,6 @@
  */
 package bookwise.UI.Panels;
 
-import bookwise.DataAccess.User;
-import bookwise.DataAccess.Book;
-import bookwise.DataAccess.BookTransaction;
-import java.time.LocalDateTime;
-
 /**
  *
  * @author wsr
@@ -20,112 +15,6 @@ public class ReturnBookPanel extends javax.swing.JPanel {
      */
     public ReturnBookPanel() {
         initComponents();
-        setupListeners();
-    }
-
-    private void setupListeners() {
-        // Auto-populate user info when user ID is entered
-        jSpinner1.addChangeListener(e -> loadUserInfo());
-        
-        // Auto-populate book info when ISBN is entered
-        jTextField7.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                loadBookInfo();
-            }
-        });
-    }
-
-    private void loadUserInfo() {
-        try {
-            int userId = (Integer) jSpinner1.getValue();
-            if (userId <= 0) {
-                clearUserFields();
-                return;
-            }
-            
-            User user = User.getUserByUniqueIdentifier(userId, "", "");
-            if (user != null) {
-                jTextField1.setText(user.getFirstName() + " " + user.getLastName());
-                jTextField2.setText(user.getNic());
-                jTextField3.setText(user.getEmail());
-                jTextField4.setText(user.getPhone());
-                jTextField5.setText(user.getAddress());
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                clearUserFields();
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error loading user: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void loadBookInfo() {
-        try {
-            String isbn = jTextField7.getText().trim();
-            if (isbn.isEmpty()) {
-                clearBookFields();
-                return;
-            }
-            
-            Book book = Book.get(isbn);
-            if (book != null) {
-                jTextField6.setText(book.getTitle());      // Title
-                jTextField7.setText(isbn);                  // ISBN (keep the input)
-                jTextField8.setText(book.getAuthor());     // Author
-                jTextField9.setText(book.getCategory());   // Category
-                
-                // Calculate return details based on borrow date
-                calculateReturnDetails(book);
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book not found with ISBN: " + isbn, "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                clearBookFields();
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error loading book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void calculateReturnDetails(Book book) {
-        try {
-            // Get borrow date from book's transaction info
-            if (book.getBorrowDate() != null) {
-                java.sql.Timestamp ts = (java.sql.Timestamp) book.getBorrowDate();
-                LocalDateTime borrowDate = ts.toLocalDateTime();
-                
-                BookTransaction.ReturnDetails details = BookTransaction.getReturnDetailsByBorrowDate(borrowDate);
-                
-                jTextField9.setText(details.dueDate.toString());
-                jTextField10.setText(String.valueOf(details.daysOverdue));
-                jTextField11.setText(String.format("%.2f", details.fine));
-            }
-        } catch (Exception e) {
-            jTextField10.setText("0");
-            jTextField11.setText("0.00");
-        }
-    }
-
-    private void clearUserFields() {
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-    }
-
-    private void clearBookFields() {
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jTextField9.setText("");
-        jTextField10.setText("0");
-        jTextField11.setText("0.00");
-    }
-
-    private void clearAllFields() {
-        jSpinner1.setValue(0);
-        clearUserFields();
-        clearBookFields();
     }
 
     /**
@@ -168,8 +57,10 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(248, 248, 255));
         setPreferredSize(new java.awt.Dimension(929, 541));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "User Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
         jTextField4.setMargin(new java.awt.Insets(3, 3, 3, 3));
@@ -312,6 +203,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Book  Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 24))); // NOI18N
 
         jTextField6.setMargin(new java.awt.Insets(3, 3, 3, 3));
@@ -432,7 +324,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
 
         jLabel13.setFont(new java.awt.Font("Segoe UI Semibold", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(30, 41, 59));
-        jLabel13.setText("Return  a  Book");
+        jLabel13.setText("Return a Book");
 
         jButton3.setBackground(new java.awt.Color(30, 56, 140));
         jButton3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -454,29 +346,32 @@ public class ReturnBookPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(266, 266, 266))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(525, 525, 525)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -493,7 +388,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadUserInfo();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
@@ -501,67 +396,11 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        loadBookInfo();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            int userId = (Integer) jSpinner1.getValue();
-            String isbn = jTextField7.getText().trim();
-            
-            if (userId <= 0 || isbn.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select a user and book", "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            User user = User.getUserByUniqueIdentifier(userId, "", "");
-            Book book = Book.get(isbn);
-            
-            if (user == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if (book == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            // Get transaction ID from borrowed books
-            Book[] borrowedBooks = user.getBorrowedBooks();
-            int transactionId = -1;
-            
-            for (Book borrowedBook : borrowedBooks) {
-                if (borrowedBook.getId() == book.getId()) {
-                    transactionId = borrowedBook.getTransactionId();
-                    break;
-                }
-            }
-            
-            if (transactionId <= 0) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book transaction not found. User may not have borrowed this book.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            // Process the return
-            if (BookTransaction.updateReturn(transactionId)) {
-                // Increase available books count
-                book.setId(book.getId());
-                book.returnBook();
-                
-                String fine = jTextField11.getText().trim();
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Book '" + book.getTitle() + "' returned successfully by " + user.getFirstName() + " " + user.getLastName() + 
-                    "\nFine: Rs. " + fine, 
-                    "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-                clearAllFields();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Failed to return book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

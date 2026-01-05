@@ -3,28 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package bookwise.UI.Panels;
-
 import bookwise.UI.AddBookModel;
-import bookwise.DataAccess.Book;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  *
  * @author wsr
  */
 public class BooksPanel extends javax.swing.JPanel {
-    
-    private Book[] allBooks;
 
     /**
      * Creates new form BooksPanel
      */
     public BooksPanel() {
         initComponents();
-        refreshData();
-        configureTableColumns();
     }
 
     /**
@@ -36,26 +27,16 @@ public class BooksPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        dataGridViewBooks = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(929, 541));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel1.setText("All  Books");
-        jLabel1.setMaximumSize(new java.awt.Dimension(0, 0));
-        jLabel1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jLabel1.setPreferredSize(new java.awt.Dimension(130, 37));
 
         jButton2.setBackground(new java.awt.Color(37, 56, 140));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Add  a new  book");
+        jButton2.setText("Add a New Book");
         jButton2.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton2.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton2.setMinimumSize(new java.awt.Dimension(0, 0));
@@ -66,246 +47,40 @@ public class BooksPanel extends javax.swing.JPanel {
             }
         });
 
-        dataGridViewBooks.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Title", "ISBN No", "Author", "Category", "Available Books"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        dataGridViewBooks.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        dataGridViewBooks.setPreferredSize(new java.awt.Dimension(890, 440));
-        jScrollPane1.setViewportView(dataGridViewBooks);
-
-        // Add right-click context menu listener
-        dataGridViewBooks.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {  // Right-click
-                    int row = dataGridViewBooks.rowAtPoint(e.getPoint());
-                    if (row >= 0) {
-                        dataGridViewBooks.setRowSelectionInterval(row, row);
-                        showContextMenu(e);
-                    }
-                }
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-            @Override
-            public void mouseExited(MouseEvent e) {}
-        });
+        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        jLabel2.setText("All Books");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(443, 443, 443)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 899, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 556, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(469, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    @SuppressWarnings("unused")
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Open AddBookModel window when button is clicked
+       
         AddBookModel addBookFrame = new AddBookModel();
         addBookFrame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void refreshData() {
-        allBooks = Book.getAll();
-        displayBooks(allBooks);
-    }
-
-    private void displayBooks(Book[] books) {
-        DefaultTableModel model = (DefaultTableModel) dataGridViewBooks.getModel();
-        model.setRowCount(0);  // Clear existing rows
-
-        for (Book book : books) {
-            model.addRow(new Object[]{
-                book.getId(),
-                book.getTitle(),
-                book.getIsbn(),
-                book.getAuthor(),
-                book.getCategory(),
-                book.getAvailableBooks()
-            });
-        }
-    }
-
-    public void searchBooks(String query) {
-        if (query == null || query.trim().isEmpty()) {
-            displayBooks(allBooks);
-            return;
-        }
-
-        String searchTerm = query.toLowerCase().trim();
-        java.util.List<Book> filteredBooks = new java.util.ArrayList<>();
-
-        for (Book book : allBooks) {
-            if (book.getTitle().toLowerCase().contains(searchTerm) ||
-                book.getAuthor().toLowerCase().contains(searchTerm) ||
-                book.getIsbn().toLowerCase().contains(searchTerm) ||
-                book.getCategory().toLowerCase().contains(searchTerm)) {
-                filteredBooks.add(book);
-            }
-        }
-
-        displayBooks(filteredBooks.toArray(new Book[0]));
-    }
-
-    private void saveBookChanges(int bookId, String title, String isbn, String author, String category, int availableBooks) {
-        try {
-            Book.update(bookId, title, isbn, author, category, availableBooks);
-            javax.swing.JOptionPane.showMessageDialog(this, "Book updated successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error updating book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void showContextMenu(MouseEvent e) {
-        javax.swing.JPopupMenu popupMenu = new javax.swing.JPopupMenu();
-        
-        javax.swing.JMenuItem borrowItem = new javax.swing.JMenuItem("Borrow Book");
-        borrowItem.addActionListener(event -> borrowBook());
-        popupMenu.add(borrowItem);
-        
-        javax.swing.JMenuItem removeItem = new javax.swing.JMenuItem("Remove Book");
-        removeItem.addActionListener(event -> removeBook());
-        popupMenu.add(removeItem);
-        
-        popupMenu.show(dataGridViewBooks, e.getX(), e.getY());
-    }
-
-    private void borrowBook() {
-        int selectedRow = dataGridViewBooks.getSelectedRow();
-        if (selectedRow < 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please select a book to borrow", "No Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) dataGridViewBooks.getModel();
-        int bookId = (Integer) model.getValueAt(selectedRow, 0);
-        String title = (String) model.getValueAt(selectedRow, 1);
-        int availableBooks = (Integer) model.getValueAt(selectedRow, 5);
-        
-        if (availableBooks <= 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "No copies available to borrow", "Unavailable", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        try {
-            Book book = new Book();
-            book.setId(bookId);
-            if (book.borrow()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book '" + title + "' borrowed successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                refreshData();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Failed to borrow book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error borrowing book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void removeBook() {
-        int selectedRow = dataGridViewBooks.getSelectedRow();
-        if (selectedRow < 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please select a book to remove", "No Selection", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) dataGridViewBooks.getModel();
-        int bookId = (Integer) model.getValueAt(selectedRow, 0);
-        String title = (String) model.getValueAt(selectedRow, 1);
-        
-        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
-            "Are you sure you want to remove '" + title + "'?", 
-            "Confirm Removal", 
-            javax.swing.JOptionPane.YES_NO_OPTION);
-        
-        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-            try {
-                Book book = new Book();
-                book.setId(bookId);
-                if (book.remove()) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Book removed successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                    refreshData();
-                } else {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Failed to remove book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Error removing book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    private void configureTableColumns() {
-        // Configure column headers and properties
-        dataGridViewBooks.getColumnModel().getColumn(0).setHeaderValue("ID");
-        dataGridViewBooks.getColumnModel().getColumn(0).setPreferredWidth(50);
-
-        dataGridViewBooks.getColumnModel().getColumn(1).setHeaderValue("Title");
-        dataGridViewBooks.getColumnModel().getColumn(1).setPreferredWidth(150);
-
-        dataGridViewBooks.getColumnModel().getColumn(2).setHeaderValue("ISBN No");
-        dataGridViewBooks.getColumnModel().getColumn(2).setPreferredWidth(120);
-
-        dataGridViewBooks.getColumnModel().getColumn(3).setHeaderValue("Author");
-        dataGridViewBooks.getColumnModel().getColumn(3).setPreferredWidth(120);
-
-        dataGridViewBooks.getColumnModel().getColumn(4).setHeaderValue("Category");
-        dataGridViewBooks.getColumnModel().getColumn(4).setPreferredWidth(100);
-
-        dataGridViewBooks.getColumnModel().getColumn(5).setHeaderValue("Available Books");
-        dataGridViewBooks.getColumnModel().getColumn(5).setPreferredWidth(120);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable dataGridViewBooks;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
-
-

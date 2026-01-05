@@ -8,10 +8,7 @@ package bookwise.DataAccess;
  *
  * @author chira
  */
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -226,26 +223,5 @@ public class Book {
         book.setCategory(rs.getString("category"));
         book.setAvailableBooks(rs.getInt("available_books"));
         return book;
-    }
-
-    // ==================== Static Update Method ====================
-    public static boolean update(int id, String title, String isbn, String author, String category, int availableBooks) {
-        String sql = "UPDATE books SET title = ?, isbn_no = ?, author = ?, category = ?, available_books = ? WHERE id = ?";
-
-        try (Connection conn = DB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, title);
-            pstmt.setString(2, isbn);
-            pstmt.setString(3, author);
-            pstmt.setString(4, category);
-            pstmt.setInt(5, availableBooks);
-            pstmt.setInt(6, id);
-
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

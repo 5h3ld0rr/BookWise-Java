@@ -292,7 +292,7 @@ public class SignInForm extends javax.swing.JFrame {
                 this.dispose();  // Closes the login window
 
                 // Optional: Open main dashboard
-                java.awt.EventQueue.invokeLater(() -> new HomeForm().setVisible(true));
+                java.awt.EventQueue.invokeLater(() -> new HomeForm(admin.getFirstName(), admin.getId(), admin.getRole()).setVisible(true));
             } else {
                 // Clear fields on failed login
                 textBoxEmail.setText("");

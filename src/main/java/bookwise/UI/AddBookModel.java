@@ -4,8 +4,6 @@
  */
 package bookwise.UI;
 
-import bookwise.DataAccess.Book;
-
 /**
  *
  * @author wsr
@@ -181,133 +179,9 @@ public class AddBookModel extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBoxCategoryActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        // Validate input fields
-        if (!validateInputs()) {
-            return;
-        }
-
-        // Create a Book object and populate it with form data
-        Book book = new Book();
-        book.setTitle(txtBoxTitle.getText().trim());
-        book.setIsbn(txtBoxISBN.getText().trim());
-        book.setAuthor(txtBoxAuthor.getText().trim());
-        book.setCategory(txtBoxCategory.getText().trim());
-        book.setAvailableBooks((Integer) numericUpDownNoOfBooks.getValue());
-
-        // Check if book already exists by ISBN
-        if (book.isExisting()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "A book with this ISBN already exists.",
-                "Duplicate Book",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxISBN.requestFocus();
-            return;
-        }
-
-        // Add the book
-        if (book.add()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Book added successfully!",
-                "Success",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            clearForm();
-            this.dispose();
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Failed to add book. Please try again.",
-                "Error",
-                javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        // TODO add your handling code here:
+        
     }//GEN-LAST:event_buttonSaveActionPerformed
-
-    private boolean validateInputs() {
-        // Check title
-        if (txtBoxTitle.getText().trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Title is required.",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxTitle.requestFocus();
-            return false;
-        }
-
-        // Check ISBN
-        if (txtBoxISBN.getText().trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "ISBN No is required.",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxISBN.requestFocus();
-            return false;
-        }
-
-        // Validate ISBN format (basic validation)
-        String isbn = txtBoxISBN.getText().trim();
-        if (!isValidISBN(isbn)) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Please enter a valid ISBN (10 or 13 digits, or with hyphens/spaces).",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxISBN.requestFocus();
-            return false;
-        }
-
-        // Check Author
-        if (txtBoxAuthor.getText().trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Author is required.",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxAuthor.requestFocus();
-            return false;
-        }
-
-        // Check Category
-        if (txtBoxCategory.getText().trim().isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Category is required.",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            txtBoxCategory.requestFocus();
-            return false;
-        }
-
-        // Check Available Books
-        int availableBooks = (Integer) numericUpDownNoOfBooks.getValue();
-        if (availableBooks <= 0) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Available books must be at least 1.",
-                "Validation Error",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            numericUpDownNoOfBooks.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isValidISBN(String isbn) {
-        // Remove hyphens, spaces, and other formatting
-        String cleanISBN = isbn.replaceAll("[^0-9X]", "").toUpperCase();
-
-        // Check if it's ISBN-10 or ISBN-13
-        if (cleanISBN.length() == 10) {
-            // ISBN-10: first 9 digits and last character can be X
-            return cleanISBN.matches("^[0-9]{9}[0-9X]$");
-        } else if (cleanISBN.length() == 13) {
-            // ISBN-13: all digits
-            return cleanISBN.matches("^[0-9]{13}$");
-        }
-        return false;
-    }
-
-    private void clearForm() {
-        txtBoxTitle.setText("");
-        txtBoxISBN.setText("");
-        txtBoxAuthor.setText("");
-        txtBoxCategory.setText("");
-        numericUpDownNoOfBooks.setValue(0);
-    }
 
     /**
      * @param args the command line arguments

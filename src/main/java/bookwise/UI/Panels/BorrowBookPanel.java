@@ -4,10 +4,6 @@
  */
 package bookwise.UI.Panels;
 
-import bookwise.DataAccess.User;
-import bookwise.DataAccess.Book;
-import bookwise.DataAccess.BookTransaction;
-
 /**
  *
  * @author wsr
@@ -19,82 +15,6 @@ public class BorrowBookPanel extends javax.swing.JPanel {
      */
     public BorrowBookPanel() {
         initComponents();
-        setupListeners();
-    }
-
-    private void setupListeners() {
-        // Auto-populate user info when user ID is entered
-        jSpinner1.addChangeListener(e -> loadUserInfo());
-        
-        // Auto-populate book info when ISBN is entered
-        jTextField7.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                loadBookInfo();
-            }
-        });
-    }
-
-    private void loadUserInfo() {
-        try {
-            int userId = (Integer) jSpinner1.getValue();
-            if (userId <= 0) {
-                clearUserFields();
-                return;
-            }
-            
-            User user = User.getUserByUniqueIdentifier(userId, "", "");
-            if (user != null) {
-                jTextField1.setText(user.getFirstName() + " " + user.getLastName());
-                jTextField2.setText(user.getNic());
-                jTextField3.setText(user.getEmail());
-                jTextField4.setText(user.getPhone());
-                jTextField5.setText(user.getAddress());
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                clearUserFields();
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error loading user: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void loadBookInfo() {
-        try {
-            String isbn = jTextField7.getText().trim();
-            if (isbn.isEmpty()) {
-                clearBookFields();
-                return;
-            }
-            
-            Book book = Book.get(isbn);
-            if (book != null) {
-                jTextField6.setText(book.getTitle());      // Title
-                jTextField7.setText(isbn);                  // ISBN (keep the input)
-                jTextField8.setText(book.getAuthor());     // Author
-                jTextField9.setText(book.getCategory());   // Category
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book not found with ISBN: " + isbn, "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                clearBookFields();
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error loading book: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void clearUserFields() {
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-    }
-
-    private void clearBookFields() {
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jTextField9.setText("");
     }
 
     /**
@@ -133,6 +53,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(248, 248, 255));
         setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
         setMaximumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(929, 541));
@@ -220,7 +141,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                             .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,7 +226,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(205, 205, 205)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,12 +264,12 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         jLabel11.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(30, 41, 59));
-        jLabel11.setText("Borrow  a  Book");
+        jLabel11.setText("Borrow a Book");
         jLabel11.setPreferredSize(new java.awt.Dimension(195, 37));
 
         jButton3.setBackground(new java.awt.Color(37, 56, 140));
@@ -370,34 +291,30 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(102, 102, 102)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -406,61 +323,12 @@ public class BorrowBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // jTextField8 is Author field - no action needed here
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            int userId = (Integer) jSpinner1.getValue();
-            String isbn = jTextField7.getText().trim();
-            
-            if (userId <= 0 || isbn.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select a user and book", "Validation Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            User user = User.getUserByUniqueIdentifier(userId, "", "");
-            Book book = Book.get(isbn);
-            
-            if (user == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "User not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if (book == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book not found", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if (book.getAvailableBooks() <= 0) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book not available for borrowing", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            // Create book transaction
-            if (BookTransaction.create(userId, book.getId())) {
-                // Decrease available books count
-                book.setId(book.getId());
-                book.borrow();
-                
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Book '" + book.getTitle() + "' borrowed successfully by " + user.getFirstName() + " " + user.getLastName(), 
-                    "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-                clearAllFields();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Failed to borrow book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void clearAllFields() {
-        jSpinner1.setValue(0);
-        clearUserFields();
-        clearBookFields();
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

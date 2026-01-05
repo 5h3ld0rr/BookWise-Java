@@ -13,6 +13,7 @@ import bookwise.UI.Panels.RulesPanel;
 import bookwise.UI.Panels.UsersPanel;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -21,13 +22,19 @@ import javax.swing.JPanel;
  */
 public class HomeForm extends javax.swing.JFrame {
     JButton[] SideBarBtns;
-    private BooksPanel currentBooksPanel;
+    public static String userName;
+    public static Integer userId;
+    public static String userRole;
 
     /**
      * Creates new form HomeFrom
      */
-    public HomeForm() {
+    public HomeForm(String name, Integer id, String role) {
         initComponents();
+        userName = name;
+        userId = id;
+        userRole = role;
+        username.setText(name);
         SideBarBtns = new JButton[] {buttonHome, buttonBorrow, buttonReturn, buttonBooks, buttonUsers, buttonHistory, buttonRules };
         showPanel(new HomePanel());
     }
@@ -60,9 +67,9 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextFieldSearch = new javax.swing.JTextField();
-        jButtonSearch = new javax.swing.JButton();
+        textBoxSearch = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        username = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,7 +88,6 @@ public class HomeForm extends javax.swing.JFrame {
         buttonHome.setBackground(new java.awt.Color(37, 56, 140));
         buttonHome.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHome.setForeground(new java.awt.Color(255, 255, 255));
-        buttonHome.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\home.png")); // NOI18N
         buttonHome.setText(" Home");
         buttonHome.setBorder(null);
         buttonHome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -97,7 +103,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonBorrow.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBorrow.setForeground(new java.awt.Color(30, 41, 59));
-        buttonBorrow.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\check-out.png")); // NOI18N
         buttonBorrow.setBorder(null);
         buttonBorrow.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         buttonBorrow.setLabel("Borrow");
@@ -113,7 +118,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonReturn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonReturn.setForeground(new java.awt.Color(30, 41, 59));
-        buttonReturn.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\check-in.png")); // NOI18N
         buttonReturn.setText("Return");
         buttonReturn.setBorder(null);
         buttonReturn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -129,7 +133,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonBooks.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBooks.setForeground(new java.awt.Color(30, 41, 59));
-        buttonBooks.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\book.png")); // NOI18N
         buttonBooks.setText("All Books");
         buttonBooks.setBorder(null);
         buttonBooks.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -145,7 +148,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
-        buttonUsers.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\users.png")); // NOI18N
         buttonUsers.setText("All  Users");
         buttonUsers.setBorder(null);
         buttonUsers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -161,7 +163,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonHistory.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHistory.setForeground(new java.awt.Color(30, 41, 59));
-        buttonHistory.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\borrow.png")); // NOI18N
         buttonHistory.setText("History");
         buttonHistory.setBorder(null);
         buttonHistory.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -177,7 +178,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonRules.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonRules.setForeground(new java.awt.Color(30, 41, 59));
-        buttonRules.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\rules.png")); // NOI18N
         buttonRules.setText("Rules");
         buttonRules.setBorder(null);
         buttonRules.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -193,7 +193,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         buttonLogout.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         buttonLogout.setForeground(new java.awt.Color(30, 41, 59));
-        buttonLogout.setIcon(new javax.swing.ImageIcon("C:\\Users\\wsr\\Documents\\LMS-java\\LibrarySystem\\images\\logout.png")); // NOI18N
         buttonLogout.setText("     Logout");
         buttonLogout.setMargin(new java.awt.Insets(3, 3, 3, 3));
         buttonLogout.setMaximumSize(new java.awt.Dimension(0, 0));
@@ -290,7 +289,7 @@ public class HomeForm extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 41, 59));
-        jLabel8.setText("Welcome , Name");
+        jLabel8.setText("Welcome , ");
         jLabel8.setMaximumSize(new java.awt.Dimension(0, 0));
         jLabel8.setMinimumSize(new java.awt.Dimension(0, 0));
         jLabel8.setPreferredSize(new java.awt.Dimension(133, 32));
@@ -301,36 +300,35 @@ public class HomeForm extends javax.swing.JFrame {
         jLabel9.setMaximumSize(new java.awt.Dimension(0, 0));
         jLabel9.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        jTextFieldSearch.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextFieldSearch.setForeground(new java.awt.Color(30, 41, 59));
-        jTextFieldSearch.setText("Search by book name, author, ISBN or category");
-        jTextFieldSearch.setPreferredSize(new java.awt.Dimension(350, 45));
+        textBoxSearch.setBackground(new java.awt.Color(255, 255, 255));
+        textBoxSearch.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        textBoxSearch.setForeground(new java.awt.Color(30, 41, 59));
+        textBoxSearch.setText("Search");
+        textBoxSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        textBoxSearch.setMaximumSize(new java.awt.Dimension(0, 0));
+        textBoxSearch.setMinimumSize(new java.awt.Dimension(0, 0));
+        textBoxSearch.setPreferredSize(new java.awt.Dimension(450, 45));
 
-        jButtonSearch.setBackground(new java.awt.Color(37, 56, 140));
-        jButtonSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButtonSearch.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonSearch.setText("Search");
-        jButtonSearch.setPreferredSize(new java.awt.Dimension(100, 45));
-        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBooks();
-            }
-        });
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(248, 248, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 720, Short.MAX_VALUE)
         );
+
+        username.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        username.setForeground(new java.awt.Color(30, 41, 59));
+        username.setText("Name");
+        username.setMaximumSize(new java.awt.Dimension(0, 0));
+        username.setMinimumSize(new java.awt.Dimension(0, 0));
+        username.setPreferredSize(new java.awt.Dimension(133, 32));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -338,21 +336,20 @@ public class HomeForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(337, 337, 337))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(392, 392, 392)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(textBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(302, 302, 302))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(61, 61, 61))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -360,15 +357,15 @@ public class HomeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(textBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(580, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(57, 57, 57))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -379,7 +376,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1294, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1365, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -387,8 +384,8 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1386, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1386, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -474,37 +471,14 @@ public class HomeForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomeForm().setVisible(true);
+                new HomeForm(userName, userId, userRole).setVisible(true);
             }
         });
     }
-
-    private void searchBooks() {
-        if (currentBooksPanel == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please navigate to Books section first", "Info", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
-        String searchQuery = jTextFieldSearch.getText().trim();
-        if (searchQuery.equals("Search by book name, author, ISBN or category") || searchQuery.isEmpty()) {
-            currentBooksPanel.refreshData();
-        } else {
-            currentBooksPanel.searchBooks(searchQuery);
-        }
-    }
-
     private void showPanel(JPanel panel) {
         jPanel3.removeAll();
         jPanel3.setLayout(new BorderLayout());
         jPanel3.add(panel, BorderLayout.CENTER);
-
-        // Track BooksPanel for search functionality
-        if (panel instanceof BooksPanel) {
-            currentBooksPanel = (BooksPanel) panel;
-            jTextFieldSearch.setText("Search by book name, author, ISBN or category");  // Reset search field when switching to BooksPanel
-        } else {
-            currentBooksPanel = null;
-        }
 
         // Refresh display
         jPanel3.revalidate();
@@ -537,7 +511,6 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonReturn;
     private javax.swing.JButton buttonRules;
     private javax.swing.JButton buttonUsers;
-    private javax.swing.JButton jButtonSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -550,6 +523,7 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextFieldSearch;
+    private javax.swing.JLabel textBoxSearch;
+    private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }
