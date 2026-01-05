@@ -94,6 +94,7 @@ public class AddUserModel extends javax.swing.JFrame {
         buttonSave.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         buttonSave.setForeground(new java.awt.Color(255, 255, 255));
         buttonSave.setText("Add   User");
+        buttonSave.setFocusPainted(false);
         buttonSave.setMargin(new java.awt.Insets(3, 3, 3, 3));
         buttonSave.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonSave.setMinimumSize(new java.awt.Dimension(0, 0));

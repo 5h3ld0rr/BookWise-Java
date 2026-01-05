@@ -64,6 +64,7 @@ public class UsersPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add a New User");
+        jButton1.setFocusPainted(false);
         jButton1.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton1.setPreferredSize(new java.awt.Dimension(165, 41));
         jButton1.addActionListener(new java.awt.event.ActionListener() {

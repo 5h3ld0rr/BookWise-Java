@@ -116,6 +116,7 @@ public class RulesPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Save");
+        jButton1.setFocusPainted(false);
         jButton1.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton1.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton1.setMinimumSize(new java.awt.Dimension(0, 0));

@@ -43,7 +43,6 @@ public class AddBookModel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Book");
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(477, 610));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(248, 248, 255));
@@ -87,6 +86,7 @@ public class AddBookModel extends javax.swing.JFrame {
         buttonSave.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         buttonSave.setForeground(new java.awt.Color(255, 255, 255));
         buttonSave.setText("Add  Book");
+        buttonSave.setFocusPainted(false);
         buttonSave.setMargin(new java.awt.Insets(3, 3, 3, 3));
         buttonSave.setPreferredSize(new java.awt.Dimension(391, 50));
         buttonSave.addActionListener(new java.awt.event.ActionListener() {

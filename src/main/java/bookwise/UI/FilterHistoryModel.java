@@ -56,6 +56,7 @@ public class FilterHistoryModel extends javax.swing.JFrame {
         buttonClear.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         buttonClear.setForeground(new java.awt.Color(30, 41, 59));
         buttonClear.setText("Clear");
+        buttonClear.setFocusPainted(false);
         buttonClear.setMargin(new java.awt.Insets(3, 3, 3, 3));
         buttonClear.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonClear.setMinimumSize(new java.awt.Dimension(0, 0));
@@ -108,6 +109,7 @@ public class FilterHistoryModel extends javax.swing.JFrame {
         buttonApply.setFont(new java.awt.Font("Segoe UI Semibold", 1, 16)); // NOI18N
         buttonApply.setForeground(new java.awt.Color(255, 255, 255));
         buttonApply.setText("Apply");
+        buttonApply.setFocusPainted(false);
         buttonApply.setMargin(new java.awt.Insets(3, 3, 3, 3));
         buttonApply.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonApply.setMinimumSize(new java.awt.Dimension(0, 0));

@@ -37,6 +37,7 @@ public class BooksPanel extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add a New Book");
+        jButton2.setFocusPainted(false);
         jButton2.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jButton2.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton2.setMinimumSize(new java.awt.Dimension(0, 0));

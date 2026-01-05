@@ -77,10 +77,13 @@ public class SignInForm extends javax.swing.JFrame {
         buttonLogin.setForeground(new java.awt.Color(248, 250, 252));
         buttonLogin.setText("LOGIN");
         buttonLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        buttonLogin.setFocusPainted(false);
+        buttonLogin.setFocusable(false);
         buttonLogin.setMargin(new java.awt.Insets(3, 2, 3, 2));
         buttonLogin.setMaximumSize(new java.awt.Dimension(0, 0));
         buttonLogin.setMinimumSize(new java.awt.Dimension(0, 0));
         buttonLogin.setPreferredSize(new java.awt.Dimension(364, 46));
+        buttonLogin.setVerifyInputWhenFocusTarget(false);
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonLoginActionPerformed(evt);
