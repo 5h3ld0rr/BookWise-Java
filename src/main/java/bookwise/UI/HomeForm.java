@@ -90,7 +90,8 @@ public class HomeForm extends javax.swing.JFrame {
         buttonHome.setBackground(new java.awt.Color(37, 56, 140));
         buttonHome.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHome.setForeground(new java.awt.Color(255, 255, 255));
-        buttonHome.setText("     Home");
+        buttonHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
+        buttonHome.setText("  Home");
         buttonHome.setBorder(null);
         buttonHome.setFocusPainted(false);
         buttonHome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -104,10 +105,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonBorrow.setBackground(new java.awt.Color(255, 255, 255));
         buttonBorrow.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBorrow.setForeground(new java.awt.Color(30, 41, 59));
-        buttonBorrow.setText("     Borrow");
+        buttonBorrow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check-out.png"))); // NOI18N
+        buttonBorrow.setText("  Borrow");
         buttonBorrow.setBorder(null);
         buttonBorrow.setFocusPainted(false);
         buttonBorrow.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -121,10 +122,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonReturn.setBackground(new java.awt.Color(255, 255, 255));
         buttonReturn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonReturn.setForeground(new java.awt.Color(30, 41, 59));
-        buttonReturn.setText("     Return");
+        buttonReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check-in.png"))); // NOI18N
+        buttonReturn.setText("  Return");
         buttonReturn.setBorder(null);
         buttonReturn.setFocusPainted(false);
         buttonReturn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -138,10 +139,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonBooks.setBackground(new java.awt.Color(255, 255, 255));
         buttonBooks.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBooks.setForeground(new java.awt.Color(30, 41, 59));
-        buttonBooks.setText("     All Books");
+        buttonBooks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/book.png"))); // NOI18N
+        buttonBooks.setText("  All Books");
         buttonBooks.setBorder(null);
         buttonBooks.setFocusPainted(false);
         buttonBooks.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -155,10 +156,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonUsers.setBackground(new java.awt.Color(255, 255, 255));
         buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
-        buttonUsers.setText("     All  Users");
+        buttonUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/users.png"))); // NOI18N
+        buttonUsers.setText("  All  Users");
         buttonUsers.setBorder(null);
         buttonUsers.setFocusPainted(false);
         buttonUsers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -172,10 +173,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonHistory.setBackground(new java.awt.Color(255, 255, 255));
         buttonHistory.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHistory.setForeground(new java.awt.Color(30, 41, 59));
-        buttonHistory.setText("     History");
+        buttonHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/borrow.png"))); // NOI18N
+        buttonHistory.setText("  History");
         buttonHistory.setBorder(null);
         buttonHistory.setFocusPainted(false);
         buttonHistory.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -189,10 +190,10 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonRules.setBackground(new java.awt.Color(255, 255, 255));
         buttonRules.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonRules.setForeground(new java.awt.Color(30, 41, 59));
-        buttonRules.setText("     Rules");
+        buttonRules.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/rules.png"))); // NOI18N
+        buttonRules.setText("  Rules");
         buttonRules.setBorder(null);
         buttonRules.setFocusPainted(false);
         buttonRules.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -206,9 +207,9 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
-        buttonLogout.setBackground(new java.awt.Color(255, 255, 255));
         buttonLogout.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         buttonLogout.setForeground(new java.awt.Color(30, 41, 59));
+        buttonLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logout.png"))); // NOI18N
         buttonLogout.setText("Logout");
         buttonLogout.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         buttonLogout.setFocusPainted(false);
@@ -337,7 +338,6 @@ public class HomeForm extends javax.swing.JFrame {
 
         panel1.setBackground(new java.awt.Color(254, 254, 254));
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(102, 102, 102));
         jTextField1.setBorder(null);

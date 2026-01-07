@@ -42,6 +42,7 @@ public class HistoryPanel extends javax.swing.JPanel {
         jLabel1.setPreferredSize(new java.awt.Dimension(239, 37));
 
         jButton1.setBackground(new java.awt.Color(248, 248, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/filter.png"))); // NOI18N
         jButton1.setFocusPainted(false);
         jButton1.setPreferredSize(new java.awt.Dimension(37, 37));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
