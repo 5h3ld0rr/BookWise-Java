@@ -6,6 +6,7 @@ package bookwise.UI.Panels;
 import bookwise.UI.AddBookModel;
 import javax.swing.table.DefaultTableModel;
 import bookwise.DataAccess.Book;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -18,6 +19,11 @@ public class BooksPanel extends javax.swing.JPanel {
      */
     public BooksPanel() {
         initComponents();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+    
+        jTable1.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         loadBooksToTable();
     }
 
@@ -57,7 +63,8 @@ public class BooksPanel extends javax.swing.JPanel {
         jLabel2.setText("All Books");
 
         jTable1.setAutoCreateRowSorter(true);
-        jTable1.setBackground(new java.awt.Color(248, 248, 255));
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setForeground(new java.awt.Color(102, 102, 102));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -82,6 +89,9 @@ public class BooksPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
+        jTable1.setRowHeight(40);
+        jTable1.setSelectionBackground(new java.awt.Color(230, 230, 230));
         jTable1.setShowHorizontalLines(true);
         jScrollPane1.setViewportView(jTable1);
 

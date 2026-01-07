@@ -105,6 +105,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonBorrow.setBackground(new java.awt.Color(255, 255, 255));
         buttonBorrow.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBorrow.setForeground(new java.awt.Color(30, 41, 59));
         buttonBorrow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check-out.png"))); // NOI18N
@@ -122,6 +123,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonReturn.setBackground(new java.awt.Color(255, 255, 255));
         buttonReturn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonReturn.setForeground(new java.awt.Color(30, 41, 59));
         buttonReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/check-in.png"))); // NOI18N
@@ -139,6 +141,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonBooks.setBackground(new java.awt.Color(255, 255, 255));
         buttonBooks.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonBooks.setForeground(new java.awt.Color(30, 41, 59));
         buttonBooks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/book.png"))); // NOI18N
@@ -156,6 +159,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonUsers.setBackground(new java.awt.Color(255, 255, 255));
         buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
         buttonUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/users.png"))); // NOI18N
@@ -173,6 +177,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonHistory.setBackground(new java.awt.Color(255, 255, 255));
         buttonHistory.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonHistory.setForeground(new java.awt.Color(30, 41, 59));
         buttonHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/borrow.png"))); // NOI18N
@@ -190,6 +195,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonRules.setBackground(new java.awt.Color(255, 255, 255));
         buttonRules.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonRules.setForeground(new java.awt.Color(30, 41, 59));
         buttonRules.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/rules.png"))); // NOI18N
@@ -207,6 +213,7 @@ public class HomeForm extends javax.swing.JFrame {
             }
         });
 
+        buttonLogout.setBackground(new java.awt.Color(255, 255, 255));
         buttonLogout.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         buttonLogout.setForeground(new java.awt.Color(30, 41, 59));
         buttonLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logout.png"))); // NOI18N
@@ -304,7 +311,7 @@ public class HomeForm extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(30, 41, 59));
-        jLabel8.setText("Welcome , ");
+        jLabel8.setText("Welcome,");
         jLabel8.setMaximumSize(new java.awt.Dimension(0, 0));
         jLabel8.setMinimumSize(new java.awt.Dimension(0, 0));
         jLabel8.setPreferredSize(new java.awt.Dimension(133, 32));
@@ -371,11 +378,11 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
                         .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 466, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );

@@ -6,6 +6,7 @@ package bookwise.UI.Panels;
 
 import bookwise.UI.AddUserModel;
 import bookwise.DataAccess.User;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +22,14 @@ public class UsersPanel extends javax.swing.JPanel {
      */
     public UsersPanel() {
         initComponents();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+    
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+
         loadUsersToTable();
     }
 
@@ -103,10 +112,10 @@ public class UsersPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(204, 204, 204));
+        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
         jTable1.setOpaque(false);
         jTable1.setRowHeight(40);
-        jTable1.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        jTable1.setSelectionBackground(new java.awt.Color(230, 230, 230));
         jTable1.setShowHorizontalLines(true);
         jScrollPane2.setViewportView(jTable1);
 
