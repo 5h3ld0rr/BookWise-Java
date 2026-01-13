@@ -30,37 +30,73 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jTextField4.setFocusable(false);
         jTextField5.setEditable(false); // Address
         jTextField5.setFocusable(false);
+        
+        // Make Book info read-only (except ISBN)
+        jTextField6.setEditable(false); 
+        jTextField6.setFocusable(false);
+        jTextField8.setEditable(false); 
+        jTextField8.setFocusable(false);
+        jTextField9.setEditable(false);
+        jTextField9.setFocusable(false);
+        jTextField10.setEditable(false);
+        jTextField10.setFocusable(false);
+        jTextField11.setEditable(false);
+        jTextField11.setFocusable(false);
 
         // User Fetch Listeners
-        jButton1.addActionListener(e -> fetchUser());
+        jButton1.addActionListener(e -> {
+            if (jButton1.getText().equals("Confirm")) {
+                if (fetchUser()) {
+                    jButton1.setText("Edit");
+                    toggleUserFields(false);
+                } else {
+                     javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                jButton1.setText("Confirm");
+                toggleUserFields(true);
+                clearUserFields();
+            }
+        });
         
-        // Fetch on Enter
-        jTextField2.addActionListener(e -> fetchUser()); // NIC
-        jTextField3.addActionListener(e -> fetchUser()); // Email
+        // Fetch on Enter (Search only)
+        jTextField2.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // NIC
+        jTextField3.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // Email
 
         // Fetch on Focus Lost
         java.awt.event.FocusAdapter fetchFocusListener = new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fetchUser();
+                if (jButton1.getText().equals("Confirm")) fetchUser();
             }
         };
         jTextField2.addFocusListener(fetchFocusListener);
         jTextField3.addFocusListener(fetchFocusListener);
 
         // Book Fetch Listeners
-        jButton2.addActionListener(e -> fetchBook());
-        jTextField7.addActionListener(e -> fetchBook()); // ISBN field
+        jButton2.addActionListener(e -> {
+            if (jButton2.getText().equals("Confirm")) {
+                if (fetchBook()) {
+                    jButton2.setText("Edit");
+                    toggleBookFields(false);
+                }
+            } else {
+                jButton2.setText("Confirm");
+                toggleBookFields(true);
+                clearBookFields();
+            }
+        });
+        jTextField7.addActionListener(e -> { if (jButton2.getText().equals("Confirm")) fetchBook(); }); // ISBN field
     }
 
-    private void fetchUser() {
+    private boolean fetchUser() {
         try {
             int userId = (Integer) jSpinner1.getValue();
             String nic = jTextField2.getText().trim();
-            String email = jTextField3.getText().trim(); // Corrected: Email is jTextField3
+            String email = jTextField3.getText().trim(); 
 
             if (userId <= 0 && nic.isEmpty() && email.isEmpty()) {
                 // Don't show warning on passive focus lost if empty
-                return;
+                return false;
             }
 
             bookwise.DataAccess.User user = bookwise.DataAccess.User.getUserByUniqueIdentifier(userId, nic, email);
@@ -68,34 +104,89 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 jSpinner1.setValue(user.getId());
                 jTextField1.setText(user.getFirstName() + " " + user.getLastName());
                 jTextField2.setText(user.getNic());
-                jTextField3.setText(user.getEmail()); // Corrected
-                jTextField4.setText(user.getPhone()); // Mobile is jTextField4
+                jTextField3.setText(user.getEmail()); 
+                jTextField4.setText(user.getPhone()); 
                 jTextField5.setText(user.getAddress()); 
-                
-                // TODO: Load borrowed books logic
+                return true;
             } else {
                // Optional: feedback
+               return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    private void fetchBook() {
+    private void clearUserFields() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jSpinner1.setValue(0);
+    }
+
+    private boolean fetchBook() {
          String isbn = jTextField7.getText().trim();
         if (isbn.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter an ISBN number.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
+            return false;
         }
 
         bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
         if (book != null) {
             jTextField6.setText(book.getTitle());
-            jTextField8.setText(book.getAuthor());
-            jTextField9.setText(book.getCategory());
-            // Additional return logic: Check if borrowed, calculate fines, etc.
+            jTextField8.setText(book.getCategory()); 
+            // Note: jTextField8 is Category in Return Panel. 
+            // We are leaving Author out as it's not mapped in UI currently.
+            return true;
         } else {
              javax.swing.JOptionPane.showMessageDialog(this, "Book not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+             clearBookFields();
+             return false;
+        }
+    }
+
+    private void clearBookFields() {
+         jTextField6.setText("");
+         jTextField8.setText("");
+         jTextField9.setText(""); 
+         jTextField10.setText("0"); 
+         jTextField11.setText("0.00"); 
+         jTextField7.setText(""); 
+    }
+    
+    private void toggleUserFields(boolean enable) {
+        toggleSpinner(jSpinner1, enable);
+        jTextField2.setEditable(enable);
+        jTextField2.setFocusable(enable);
+        jTextField3.setEditable(enable);
+        jTextField3.setFocusable(enable);
+    }
+    
+    private void toggleSpinner(javax.swing.JSpinner spinner, boolean enable) {
+        if (spinner.getEditor() instanceof javax.swing.JSpinner.DefaultEditor) {
+             javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) spinner.getEditor();
+             editor.getTextField().setEditable(enable);
+             editor.getTextField().setFocusable(enable);
+        }
+        for (java.awt.Component c : spinner.getComponents()) {
+            if (c != spinner.getEditor()) {
+                c.setEnabled(enable);
+            }
+        }
+    }
+    
+    private void toggleBookFields(boolean enable) {
+        jTextField7.setEditable(enable);
+        jTextField7.setFocusable(enable);
+    }
+    
+    public void setBook(String isbn) {
+        if (isbn != null && !isbn.isEmpty()) {
+            jTextField7.setText(isbn);
+            fetchBook();
         }
     }
 

@@ -236,8 +236,20 @@ public class BooksPanel extends javax.swing.JPanel {
         
         menuItemBorrow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Determine if we can link to borrow panel
-                javax.swing.JOptionPane.showMessageDialog(BooksPanel.this, "Feature to easy-borrow is coming soon. Please go to Borrow tab and enter ISBN.");
+                int selectedRow = jTable1.getSelectedRow();
+                if (selectedRow != -1) {
+                    try {
+                        String isbn = jTable1.getValueAt(selectedRow, 2).toString();
+                        if (bookwise.UI.HomeForm.getInstance() != null) {
+                            bookwise.UI.HomeForm.getInstance().navigateToBorrow(isbn);
+                        } else {
+                            javax.swing.JOptionPane.showMessageDialog(BooksPanel.this, "Navigation error: HomeForm instance not found.");
+                        }
+                    } catch (Exception ex) {
+                         ex.printStackTrace();
+                         javax.swing.JOptionPane.showMessageDialog(BooksPanel.this, "Error processing borrow request: " + ex.getMessage());
+                    }
+                }
             }
         });
 

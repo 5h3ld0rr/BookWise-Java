@@ -30,37 +30,132 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField4.setFocusable(false);
         jTextField5.setEditable(false); // Address
         jTextField5.setFocusable(false);
+        
+        // Make Book info read-only (except ISBN)
+        jTextField6.setEditable(false); // Title
+        jTextField6.setFocusable(false);
+        jTextField8.setEditable(false); // Author
+        jTextField8.setFocusable(false);
+        jTextField9.setEditable(false); // Category
+        jTextField9.setFocusable(false);
 
         // User Fetch Listeners
-        jButton1.addActionListener(e -> fetchUser());
+        jButton1.addActionListener(e -> {
+            if (jButton1.getText().equals("Confirm")) {
+                if (fetchUser()) {
+                    jButton1.setText("Edit");
+                    toggleUserFields(false);
+                } else {
+                     javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                jButton1.setText("Confirm");
+                toggleUserFields(true);
+                clearUserFields();
+            }
+        });
         
-        // Fetch on Enter
-        jTextField2.addActionListener(e -> fetchUser()); // NIC
-        jTextField3.addActionListener(e -> fetchUser()); // Email
+        // Fetch on Enter (Search only)
+        jTextField2.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // NIC
+        jTextField3.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // Email
         
         // Fetch on Focus Lost
         java.awt.event.FocusAdapter fetchFocusListener = new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                fetchUser();
+                if (jButton1.getText().equals("Confirm")) fetchUser();
             }
         };
         jTextField2.addFocusListener(fetchFocusListener);
         jTextField3.addFocusListener(fetchFocusListener);
         
         // Book Fetch Listeners
-        jButton2.addActionListener(e -> fetchBook());
-        jTextField7.addActionListener(e -> fetchBook()); // Fetch on Enter in ISBN field
+        jButton2.addActionListener(e -> {
+            if (jButton2.getText().equals("Confirm")) {
+                if (fetchBook()) {
+                    jButton2.setText("Edit");
+                    toggleBookFields(false);
+                }
+            } else {
+                jButton2.setText("Confirm");
+                toggleBookFields(true);
+                clearBookFields();
+            }
+        });
+        jTextField7.addActionListener(e -> { if (jButton2.getText().equals("Confirm")) fetchBook(); }); // Fetch on Enter in ISBN field
+        
+        // BORROW BUTTON (Proceed)
+        jButton3.setText("Borrow");
+        jButton3.addActionListener(e -> {
+             int userId = (Integer) jSpinner1.getValue();
+             String isbn = jTextField7.getText().trim();
+             
+             // 1. Basic Validation
+             if (userId <= 0) {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Please confirm a valid user first.", "Invalid User", javax.swing.JOptionPane.WARNING_MESSAGE);
+                 return;
+             }
+             if (isbn.isEmpty()) {
+                  javax.swing.JOptionPane.showMessageDialog(this, "Please confirm a valid book first.", "Invalid Book", javax.swing.JOptionPane.WARNING_MESSAGE);
+                  return;
+             }
+             
+             // 2. Refresh/Verify User and Book Existence (Optional but safe)
+             // ... assuming Confirm steps verified them.
+             
+             // 3. User MAX_BOOKS Rule Check
+             bookwise.DataAccess.Book[] borrowedBooks = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
+             int currentCount = borrowedBooks.length;
+             int maxBooks = bookwise.DataAccess.CommonData.Rules.MAX_BOOKS_PER_USER;
+             
+             if (currentCount >= maxBooks) {
+                 javax.swing.JOptionPane.showMessageDialog(this, 
+                     "This user has reached the borrowing limit of " + maxBooks + " books.\n" +
+                     "Current borrowed: " + currentCount, 
+                     "Limit Reached", 
+                     javax.swing.JOptionPane.ERROR_MESSAGE);
+                 return;
+             }
+             
+             // 4. Proceed to Borrow
+             // We need Book ID. fetchBook found it but BorrowPanel doesn't store Book ID in a field?
+             // Re-fetch book to get ID.
+             bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
+             if (book == null) {
+                  javax.swing.JOptionPane.showMessageDialog(this, "Book not found in database.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                  return;
+             }
+             
+             if (book.getAvailableBooks() <= 0) {
+                  javax.swing.JOptionPane.showMessageDialog(this, "This book is currently out of stock.", "Out of Stock", javax.swing.JOptionPane.WARNING_MESSAGE);
+                  return;
+             }
+             
+             boolean success = bookwise.DataAccess.BookTransaction.create(userId, book.getId());
+             if (success) {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Book borrowed successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                 // Reset fields for next transaction
+                 // Reset Book fields but keep User? Usually librarians process multiple books for one user.
+                 // But logic says Confirm/Edit. 
+                 // If we keep User confirmed, we just reset Book.
+                 jButton2.setText("Confirm");
+                 toggleBookFields(true);
+                 clearBookFields();
+             } else {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Failed to process transaction.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+             }
+        });
+        
     }
 
-    private void fetchUser() {
+    private boolean fetchUser() {
         try {
             int userId = (Integer) jSpinner1.getValue();
             String nic = jTextField2.getText().trim();
             String email = jTextField3.getText().trim();
 
             if (userId <= 0 && nic.isEmpty() && email.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please enter User ID, NIC, or Email.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
-                return;
+                // Don't show popup on focus lost if empty, just return
+                return false;
             }
 
             bookwise.DataAccess.User user = bookwise.DataAccess.User.getUserByUniqueIdentifier(userId, nic, email);
@@ -72,12 +167,17 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                 jTextField3.setText(user.getEmail());
                 jTextField4.setText(user.getPhone());
                 jTextField5.setText(user.getAddress());
+                return true;
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                // Don't clear fields immediately to let user fix input
+                // Only show alert if explicit action (button/enter) or meaningful input? 
+                 // Note: We might want to suppressing noise for passive focus lost, but usually button click needs feedback.
+                 // For now returning false lets the caller decide or just fail silently for passive events.
+                 // But for the button click, we explicitly check returning 'false' and show message there.
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -87,13 +187,14 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jSpinner1.setValue(0);
     }
 
-    private void fetchBook() {
+    private boolean fetchBook() {
         String isbn = jTextField7.getText().trim();
         if (isbn.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter an ISBN number.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
+            return false;
         }
 
         bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
@@ -101,9 +202,11 @@ public class BorrowBookPanel extends javax.swing.JPanel {
             jTextField6.setText(book.getTitle());
             jTextField8.setText(book.getAuthor());
             jTextField9.setText(book.getCategory());
+            return true;
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Book not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             clearBookFields();
+            return false;
         }
     }
 
@@ -111,6 +214,41 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField6.setText("");
         jTextField8.setText("");
         jTextField9.setText("");
+        jTextField7.setText("");
+    }
+    
+    private void toggleUserFields(boolean enable) {
+        toggleSpinner(jSpinner1, enable);
+        jTextField2.setEditable(enable);
+        jTextField2.setFocusable(enable);
+        jTextField3.setEditable(enable);
+        jTextField3.setFocusable(enable);
+    }
+    
+    private void toggleSpinner(javax.swing.JSpinner spinner, boolean enable) {
+        if (spinner.getEditor() instanceof javax.swing.JSpinner.DefaultEditor) {
+             javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) spinner.getEditor();
+             editor.getTextField().setEditable(enable);
+             editor.getTextField().setFocusable(enable);
+        }
+        for (java.awt.Component c : spinner.getComponents()) {
+            if (c != spinner.getEditor()) {
+                c.setEnabled(enable);
+            }
+        }
+    }
+    
+    private void toggleBookFields(boolean enable) {
+        jTextField7.setEditable(enable);
+        jTextField7.setFocusable(enable);
+    }
+
+
+    public void setBook(String isbn) {
+        if (isbn != null && !isbn.isEmpty()) {
+            jTextField7.setText(isbn);
+            fetchBook();
+        }
     }
 
     /**

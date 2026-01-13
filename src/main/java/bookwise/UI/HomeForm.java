@@ -25,11 +25,17 @@ public class HomeForm extends javax.swing.JFrame {
     public static String userName;
     public static Integer userId;
     public static String userRole;
+    private static HomeForm instance;
+
+    public static HomeForm getInstance() {
+        return instance;
+    }
 
     /**
      * Creates new form HomeFrom
      */
     public HomeForm(String name, Integer id, String role) {
+        instance = this;
         initComponents();
         userName = name;
         userId = id;
@@ -444,6 +450,13 @@ public class HomeForm extends javax.swing.JFrame {
         HighlightButton(buttonHome);
         showPanel(new HomePanel());
     }//GEN-LAST:event_buttonHomeActionPerformed
+
+    public void navigateToBorrow(String isbn) {
+        HighlightButton(buttonBorrow);
+        BorrowBookPanel borrowPanel = new BorrowBookPanel();
+        borrowPanel.setBook(isbn);
+        showPanel(borrowPanel);
+    }
 
     /**
      * @param args the command line arguments
