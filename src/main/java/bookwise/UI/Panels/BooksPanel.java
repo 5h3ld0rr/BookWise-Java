@@ -129,20 +129,33 @@ public class BooksPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
     
     private void loadBooksToTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        Book[] books = Book.getAll();
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            model.addRow(new Object[]{"Loading data...", "", "", "", null});
+        });
 
-        for (Book book : books) {
-            Object[] row = {
-                book.getTitle(),
-                book.getIsbn(),
-                book.getAuthor(),
-                book.getCategory(),
-                book.getAvailableBooks()
-            };
-            model.addRow(row);
-        }
+        new Thread(() -> {
+            Book[] books = Book.getAll();
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                for (Book book : books) {
+                    Object[] row = {
+                        book.getTitle(),
+                        book.getIsbn(),
+                        book.getAuthor(),
+                        book.getCategory(),
+                        book.getAvailableBooks()
+                    };
+                    model.addRow(row);
+                }
+                setCursor(java.awt.Cursor.getDefaultCursor());
+            });
+        }).start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

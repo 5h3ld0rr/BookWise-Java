@@ -19,6 +19,15 @@ public class HomePanel extends javax.swing.JPanel {
     }
 
     public void refreshCounts() {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+             jLabel4.setText("Loading...");
+             jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16));
+             jLabel6.setText("Loading...");
+             jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16));
+             jLabel8.setText("Loading...");
+             jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        });
+
         // Run in background to avoid freezing UI if DB is slow
         new Thread(() -> {
             int borrowedCount = bookwise.DataAccess.BookTransaction.getBorrowedBooksCount();
@@ -26,8 +35,13 @@ public class HomePanel extends javax.swing.JPanel {
             int bookCount = bookwise.DataAccess.Book.getTotalBooks();
 
             javax.swing.SwingUtilities.invokeLater(() -> {
+                jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36));
                 jLabel4.setText(String.valueOf(borrowedCount));
+                
+                jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36));
                 jLabel6.setText(String.valueOf(userCount));
+                
+                jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36));
                 jLabel8.setText(String.valueOf(bookCount));
             });
         }).start();

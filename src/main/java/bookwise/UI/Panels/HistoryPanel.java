@@ -136,25 +136,37 @@ public class HistoryPanel extends javax.swing.JPanel {
         filterHistoryModal.setVisible(true);   
     }//GEN-LAST:event_jButton1ActionPerformed
 
-     private void loadBookTransactionsToTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+    private void loadBookTransactionsToTable() {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            model.addRow(new Object[]{"Loading data...", "", "", "", "", ""});
+        });
 
-        List<BookTransaction.TransactionRow> transactions = BookTransaction.getAll(null);
+        new Thread(() -> {
+            List<BookTransaction.TransactionRow> transactions = BookTransaction.getAll(null);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
 
-        for (BookTransaction.TransactionRow rowData : transactions) {
-            Object[] row = {
-                rowData.isbn,
-                rowData.title,
-                rowData.userId,
-                rowData.userName,
-                rowData.borrowDate.format(formatter),
-                rowData.returnDate != null ? rowData.returnDate.format(formatter) : "Not Returned"
-            };
-            model.addRow(row);
-        }
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                for (BookTransaction.TransactionRow rowData : transactions) {
+                    Object[] row = {
+                        rowData.isbn,
+                        rowData.title,
+                        rowData.userId,
+                        rowData.userName,
+                        rowData.borrowDate.format(formatter),
+                        rowData.returnDate != null ? rowData.returnDate.format(formatter) : "Not Returned"
+                    };
+                    model.addRow(row);
+                }
+                setCursor(java.awt.Cursor.getDefaultCursor());
+            });
+        }).start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
