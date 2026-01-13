@@ -10,6 +10,11 @@ package bookwise.UI;
  */
 public class FilterHistoryModel extends javax.swing.JFrame {
     public Object filterData;
+    private java.util.function.Consumer<bookwise.DataAccess.BookTransaction.FilterData> onApply;
+
+    public void setOnApply(java.util.function.Consumer<bookwise.DataAccess.BookTransaction.FilterData> onApply) {
+        this.onApply = onApply;
+    }
     
     /**
      * Creates new form FilterHistoryModel
@@ -129,7 +134,7 @@ public class FilterHistoryModel extends javax.swing.JFrame {
         });
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "Return", "Unretrned" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "Returned", "Unreturned" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(236, 29));
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -244,9 +249,46 @@ public class FilterHistoryModel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void buttonApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApplyActionPerformed
-        // TODO add your handling code here:
+        bookwise.DataAccess.BookTransaction.FilterData data = new bookwise.DataAccess.BookTransaction.FilterData();
+        
+        // Safe MySQL Date Range
+        java.time.LocalDate minDate = java.time.LocalDate.of(1970, 1, 1);
+        java.time.LocalDate maxDate = java.time.LocalDate.of(9999, 12, 31);
+        
+        // Borrow Dates
+        data.borrowStartDate = getDate(jDateChooser1, minDate);
+        data.borrowEndDate = getDate(jDateChooser4, maxDate);
+        
+        // Return Dates
+        data.returnStartDate = getDate(jDateChooser2, minDate);
+        data.returnEndDate = getDate(jDateChooser3, maxDate);
+        
+        // Status
+        String statusSel = (String) jComboBox1.getSelectedItem();
+        if ("Returned".equals(statusSel)) data.status = "Returned";
+        else if ("Unreturned".equals(statusSel)) data.status = "Unreturned";
+        else data.status = null;
+        
+        // Overdue
+        String overdueSel = (String) jComboBox3.getSelectedItem();
+        if (overdueSel != null) overdueSel = overdueSel.trim();
+        if ("Yes".equals(overdueSel)) data.overdue = "Yes";
+        else if ("No".equals(overdueSel)) data.overdue = "No";
+        else data.overdue = null;
+        
+        if (onApply != null) {
+            onApply.accept(data);
+        }
+        
         this.setVisible(false);
     }//GEN-LAST:event_buttonApplyActionPerformed
+
+    private java.time.LocalDate getDate(com.toedter.calendar.JDateChooser chooser, java.time.LocalDate defaultDate) {
+        if (chooser.getDate() != null) {
+            return chooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        }
+        return defaultDate;
+    }
 
     private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
         // TODO add your handling code here:

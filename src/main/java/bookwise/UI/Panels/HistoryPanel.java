@@ -27,7 +27,20 @@ public class HistoryPanel extends javax.swing.JPanel {
     
         jTable1.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        
+        // Table Styling
+        jTable1.setShowVerticalLines(false);
+        jTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        jTable1.getTableHeader().setOpaque(false);
+        jTable1.getTableHeader().setBackground(new java.awt.Color(248, 248, 255));
+        jTable1.getTableHeader().setForeground(new java.awt.Color(30, 41, 59));
+        
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        jScrollPane2.getViewport().setBackground(java.awt.Color.WHITE);
+        
         loadBookTransactionsToTable();
     }
 
@@ -136,12 +149,10 @@ public class HistoryPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 843, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE) // Reduced spacing to fit search
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(45, 45, 45))
         );
@@ -151,9 +162,7 @@ public class HistoryPanel extends javax.swing.JPanel {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
@@ -161,9 +170,12 @@ public class HistoryPanel extends javax.swing.JPanel {
     }// </editor-fold>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         FilterHistoryModel filterHistoryModal = new FilterHistoryModel();
-        filterHistoryModal.setVisible(true);   
+        filterHistoryModal.setOnApply(data -> {
+            this.currentFilter = data;
+            loadBookTransactionsToTable();
+        });
+        filterHistoryModal.setVisible(true);
     }
 
     private void loadBookTransactionsToTable() {
@@ -180,9 +192,9 @@ public class HistoryPanel extends javax.swing.JPanel {
         new Thread(() -> {
             List<BookTransaction.TransactionRow> transactions;
             if (isSearching) {
-                transactions = BookTransaction.search(searchText.trim(), null);
+                transactions = BookTransaction.search(searchText.trim(), currentFilter);
             } else {
-                transactions = BookTransaction.getAll(null);
+                transactions = BookTransaction.getAll(currentFilter);
             }
 
             javax.swing.SwingUtilities.invokeLater(() -> {
@@ -213,5 +225,6 @@ public class HistoryPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtSearch;
+    private bookwise.DataAccess.BookTransaction.FilterData currentFilter;
     // End of variables declaration//GEN-END:variables
 }

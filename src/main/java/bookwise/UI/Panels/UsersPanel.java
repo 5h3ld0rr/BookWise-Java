@@ -29,6 +29,17 @@ public class UsersPanel extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+        
+        // Table Styling
+        jTable1.setShowVerticalLines(false);
+        jTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        jTable1.getTableHeader().setOpaque(false);
+        jTable1.getTableHeader().setBackground(new java.awt.Color(248, 248, 255));
+        jTable1.getTableHeader().setForeground(new java.awt.Color(30, 41, 59));
+        
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        jScrollPane2.getViewport().setBackground(java.awt.Color.WHITE);
 
         initPopupMenu();
         loadUsersToTable();
