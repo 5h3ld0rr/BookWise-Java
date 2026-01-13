@@ -179,8 +179,39 @@ public class AddBookModel extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBoxCategoryActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        // TODO add your handling code here:
+        String title = txtBoxTitle.getText().trim();
+        String isbn = txtBoxISBN.getText().trim();
+        String author = txtBoxAuthor.getText().trim();
+        String category = txtBoxCategory.getText().trim();
+        int availableBooks = (int) numericUpDownNoOfBooks.getValue();
+
+        if (title.isEmpty() || isbn.isEmpty() || author.isEmpty() || category.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
+        if (availableBooks < 0) {
+             javax.swing.JOptionPane.showMessageDialog(this, "Number of books cannot be negative", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+
+        bookwise.DataAccess.Book newBook = new bookwise.DataAccess.Book();
+        newBook.setTitle(title);
+        newBook.setIsbn(isbn);
+        newBook.setAuthor(author);
+        newBook.setCategory(category);
+        newBook.setAvailableBooks(availableBooks);
+
+        if (newBook.isExisting()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "A book with this ISBN already exists", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (newBook.add()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Book added successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                this.dispose(); // Close the window
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Failed to add book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
