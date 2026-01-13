@@ -15,6 +15,88 @@ public class ReturnBookPanel extends javax.swing.JPanel {
      */
     public ReturnBookPanel() {
         initComponents();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        // Align ID spinner text to the left
+        javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinner1.getEditor();
+        editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        
+        // Make read-only fields
+        jTextField1.setEditable(false); // Name
+        jTextField1.setFocusable(false);
+        jTextField4.setEditable(false); // Mobile
+        jTextField4.setFocusable(false);
+        jTextField5.setEditable(false); // Address
+        jTextField5.setFocusable(false);
+
+        // User Fetch Listeners
+        jButton1.addActionListener(e -> fetchUser());
+        
+        // Fetch on Enter
+        jTextField2.addActionListener(e -> fetchUser()); // NIC
+        jTextField3.addActionListener(e -> fetchUser()); // Email
+
+        // Fetch on Focus Lost
+        java.awt.event.FocusAdapter fetchFocusListener = new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fetchUser();
+            }
+        };
+        jTextField2.addFocusListener(fetchFocusListener);
+        jTextField3.addFocusListener(fetchFocusListener);
+
+        // Book Fetch Listeners
+        jButton2.addActionListener(e -> fetchBook());
+        jTextField7.addActionListener(e -> fetchBook()); // ISBN field
+    }
+
+    private void fetchUser() {
+        try {
+            int userId = (Integer) jSpinner1.getValue();
+            String nic = jTextField2.getText().trim();
+            String email = jTextField3.getText().trim(); // Corrected: Email is jTextField3
+
+            if (userId <= 0 && nic.isEmpty() && email.isEmpty()) {
+                // Don't show warning on passive focus lost if empty
+                return;
+            }
+
+            bookwise.DataAccess.User user = bookwise.DataAccess.User.getUserByUniqueIdentifier(userId, nic, email);
+            if (user != null) {
+                jSpinner1.setValue(user.getId());
+                jTextField1.setText(user.getFirstName() + " " + user.getLastName());
+                jTextField2.setText(user.getNic());
+                jTextField3.setText(user.getEmail()); // Corrected
+                jTextField4.setText(user.getPhone()); // Mobile is jTextField4
+                jTextField5.setText(user.getAddress()); 
+                
+                // TODO: Load borrowed books logic
+            } else {
+               // Optional: feedback
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchBook() {
+         String isbn = jTextField7.getText().trim();
+        if (isbn.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter an ISBN number.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
+        if (book != null) {
+            jTextField6.setText(book.getTitle());
+            jTextField8.setText(book.getAuthor());
+            jTextField9.setText(book.getCategory());
+            // Additional return logic: Check if borrowed, calculate fines, etc.
+        } else {
+             javax.swing.JOptionPane.showMessageDialog(this, "Book not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
@@ -191,14 +273,14 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)) // Email
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)) // Mobile
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE) // Address
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

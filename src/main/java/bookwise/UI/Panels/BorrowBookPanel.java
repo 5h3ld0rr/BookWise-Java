@@ -15,6 +15,102 @@ public class BorrowBookPanel extends javax.swing.JPanel {
      */
     public BorrowBookPanel() {
         initComponents();
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        // Align ID spinner text to the left to match other fields
+        javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinner1.getEditor();
+        editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        
+        // Make read-only fields
+        jTextField1.setEditable(false); // Name
+        jTextField1.setFocusable(false);
+        jTextField4.setEditable(false); // Mobile
+        jTextField4.setFocusable(false);
+        jTextField5.setEditable(false); // Address
+        jTextField5.setFocusable(false);
+
+        // User Fetch Listeners
+        jButton1.addActionListener(e -> fetchUser());
+        
+        // Fetch on Enter
+        jTextField2.addActionListener(e -> fetchUser()); // NIC
+        jTextField3.addActionListener(e -> fetchUser()); // Email
+        
+        // Fetch on Focus Lost
+        java.awt.event.FocusAdapter fetchFocusListener = new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fetchUser();
+            }
+        };
+        jTextField2.addFocusListener(fetchFocusListener);
+        jTextField3.addFocusListener(fetchFocusListener);
+        
+        // Book Fetch Listeners
+        jButton2.addActionListener(e -> fetchBook());
+        jTextField7.addActionListener(e -> fetchBook()); // Fetch on Enter in ISBN field
+    }
+
+    private void fetchUser() {
+        try {
+            int userId = (Integer) jSpinner1.getValue();
+            String nic = jTextField2.getText().trim();
+            String email = jTextField3.getText().trim();
+
+            if (userId <= 0 && nic.isEmpty() && email.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Please enter User ID, NIC, or Email.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            bookwise.DataAccess.User user = bookwise.DataAccess.User.getUserByUniqueIdentifier(userId, nic, email);
+            if (user != null) {
+                // Populate fields, including setting the ID if found via other means
+                jSpinner1.setValue(user.getId());
+                jTextField1.setText(user.getFirstName() + " " + user.getLastName());
+                jTextField2.setText(user.getNic());
+                jTextField3.setText(user.getEmail());
+                jTextField4.setText(user.getPhone());
+                jTextField5.setText(user.getAddress());
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                // Don't clear fields immediately to let user fix input
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearUserFields() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+    }
+
+    private void fetchBook() {
+        String isbn = jTextField7.getText().trim();
+        if (isbn.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter an ISBN number.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
+        if (book != null) {
+            jTextField6.setText(book.getTitle());
+            jTextField8.setText(book.getAuthor());
+            jTextField9.setText(book.getCategory());
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Book not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            clearBookFields();
+        }
+    }
+
+    private void clearBookFields() {
+        jTextField6.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
     }
 
     /**
