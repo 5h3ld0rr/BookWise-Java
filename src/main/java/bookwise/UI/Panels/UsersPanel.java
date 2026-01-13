@@ -30,6 +30,7 @@ public class UsersPanel extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
 
+        initPopupMenu();
         loadUsersToTable();
     }
 
@@ -243,6 +244,107 @@ public class UsersPanel extends javax.swing.JPanel {
                 setCursor(java.awt.Cursor.getDefaultCursor());
             });
         }).start();
+    }
+
+    private javax.swing.JPopupMenu popupMenu;
+    private javax.swing.JMenuItem menuItemEdit;
+    private javax.swing.JMenuItem menuItemRemove;
+
+    private void initPopupMenu() {
+        popupMenu = new javax.swing.JPopupMenu();
+        menuItemEdit = new javax.swing.JMenuItem("Edit");
+        menuItemRemove = new javax.swing.JMenuItem("Remove");
+
+        popupMenu.add(menuItemEdit);
+        popupMenu.add(menuItemRemove);
+
+        menuItemEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editUser();
+            }
+        });
+
+        menuItemRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeUser();
+            }
+        });
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            private void showPopup(java.awt.event.MouseEvent e) {
+                int row = jTable1.rowAtPoint(e.getPoint());
+                if (row >= 0 && row < jTable1.getRowCount()) {
+                    jTable1.setRowSelectionInterval(row, row);
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+    }
+
+    private void editUser() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            User user = new User();
+            try {
+                user.setId(Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString()));
+                user.setFirstName(jTable1.getValueAt(selectedRow, 1).toString());
+                user.setLastName(jTable1.getValueAt(selectedRow, 2).toString());
+                user.setEmail(jTable1.getValueAt(selectedRow, 3).toString());
+                user.setNic(jTable1.getValueAt(selectedRow, 4).toString());
+                user.setRole(jTable1.getValueAt(selectedRow, 5).toString());
+                user.setPhone(jTable1.getValueAt(selectedRow, 6).toString());
+                user.setAddress(jTable1.getValueAt(selectedRow, 7).toString());
+                
+                AddUserModel editFrame = new AddUserModel(user);
+                editFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        loadUsersToTable();
+                    }
+                });
+                editFrame.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this, "Error reading user data: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void removeUser() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+             int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to remove this user?", 
+                "Confirm Removal", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+             
+             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                 try {
+                     int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString());
+                     User user = new User();
+                     user.setId(id);
+                     if (user.remove()) {
+                         javax.swing.JOptionPane.showMessageDialog(this, "User removed successfully.");
+                         loadUsersToTable();
+                     } else {
+                         javax.swing.JOptionPane.showMessageDialog(this, "Failed to remove user.");
+                     }
+                 } catch (Exception ex) {
+                     ex.printStackTrace();
+                     javax.swing.JOptionPane.showMessageDialog(this, "Error removing user: " + ex.getMessage());
+                 }
+             }
+        }
     }
 
 
