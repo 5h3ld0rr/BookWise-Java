@@ -178,22 +178,35 @@ public class UsersPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     public void loadUsersToTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        User[] users = User.getAll(acceptedRoles);
-        
-        for (User user : users) {
-            model.addRow(new Object[]{
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getNic(),
-                user.getRole(),
-                user.getPhone(),
-                user.getAddress()
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            model.addRow(new Object[]{"Loading data...", "", "", "", "", "", "", ""});
+        });
+
+        new Thread(() -> {
+            User[] users = User.getAll(acceptedRoles);
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                for (User user : users) {
+                    model.addRow(new Object[]{
+                        user.getId(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getNic(),
+                        user.getRole(),
+                        user.getPhone(),
+                        user.getAddress()
+                    });
+                }
+                setCursor(java.awt.Cursor.getDefaultCursor());
             });
-        }
+        }).start();
     }
 
 
