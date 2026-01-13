@@ -15,6 +15,22 @@ public class HomePanel extends javax.swing.JPanel {
      */
     public HomePanel() {
         initComponents();
+        refreshCounts();
+    }
+
+    public void refreshCounts() {
+        // Run in background to avoid freezing UI if DB is slow
+        new Thread(() -> {
+            int borrowedCount = bookwise.DataAccess.BookTransaction.getBorrowedBooksCount();
+            int userCount = bookwise.DataAccess.User.getTotalUsers();
+            int bookCount = bookwise.DataAccess.Book.getTotalBooks();
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                jLabel4.setText(String.valueOf(borrowedCount));
+                jLabel6.setText(String.valueOf(userCount));
+                jLabel8.setText(String.valueOf(bookCount));
+            });
+        }).start();
     }
 
     /**

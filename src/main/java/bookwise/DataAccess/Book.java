@@ -213,6 +213,20 @@ public class Book {
         return list.toArray(new Book[0]);
     }
 
+    public static int getTotalBooks() {
+        String sql = "SELECT COUNT(*) FROM books";
+        try (Connection conn = DB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // Helper: Map ResultSet row → Book object
     private static Book mapRowToBook(ResultSet rs) throws SQLException {
         Book book = new Book();
