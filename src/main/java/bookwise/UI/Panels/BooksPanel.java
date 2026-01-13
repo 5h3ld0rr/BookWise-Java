@@ -24,6 +24,9 @@ public class BooksPanel extends javax.swing.JPanel {
     
         jTable1.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
+        
+        initPopupMenu();
         loadBooksToTable();
     }
 
@@ -96,14 +99,14 @@ public class BooksPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Title", "ISBN", "Author", "Category", "Available"
+                "ID", "Title", "ISBN", "Author", "Category", "Available"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -170,7 +173,7 @@ public class BooksPanel extends javax.swing.JPanel {
             setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            model.addRow(new Object[]{"Loading data...", "", "", "", null});
+            model.addRow(new Object[]{null, "Loading data...", "", "", "", null});
         });
 
         new Thread(() -> {
@@ -187,6 +190,7 @@ public class BooksPanel extends javax.swing.JPanel {
 
                 for (Book book : books) {
                     Object[] row = {
+                        book.getId(),
                         book.getTitle(),
                         book.getIsbn(),
                         book.getAuthor(),
@@ -198,6 +202,118 @@ public class BooksPanel extends javax.swing.JPanel {
                 setCursor(java.awt.Cursor.getDefaultCursor());
             });
         }).start();
+    }
+
+    private javax.swing.JPopupMenu popupMenu;
+    private javax.swing.JMenuItem menuItemEdit;
+    private javax.swing.JMenuItem menuItemRemove;
+    private javax.swing.JMenu menuMore;
+    private javax.swing.JMenuItem menuItemBorrow;
+
+    private void initPopupMenu() {
+        popupMenu = new javax.swing.JPopupMenu();
+        menuItemEdit = new javax.swing.JMenuItem("Edit");
+        menuItemRemove = new javax.swing.JMenuItem("Remove");
+        menuMore = new javax.swing.JMenu("More");
+        menuItemBorrow = new javax.swing.JMenuItem("Borrow");
+
+        popupMenu.add(menuItemEdit);
+        popupMenu.add(menuItemRemove);
+        popupMenu.add(menuMore);
+        menuMore.add(menuItemBorrow);
+
+        menuItemEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBook();
+            }
+        });
+
+        menuItemRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBook();
+            }
+        });
+        
+        menuItemBorrow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // Determine if we can link to borrow panel
+                javax.swing.JOptionPane.showMessageDialog(BooksPanel.this, "Feature to easy-borrow is coming soon. Please go to Borrow tab and enter ISBN.");
+            }
+        });
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            private void showPopup(java.awt.event.MouseEvent e) {
+                int row = jTable1.rowAtPoint(e.getPoint());
+                if (row >= 0 && row < jTable1.getRowCount()) {
+                    jTable1.setRowSelectionInterval(row, row);
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+    }
+
+    private void editBook() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            try {
+                Book book = new Book();
+                book.setId((int) jTable1.getValueAt(selectedRow, 0));
+                book.setTitle(jTable1.getValueAt(selectedRow, 1).toString());
+                book.setIsbn(jTable1.getValueAt(selectedRow, 2).toString());
+                book.setAuthor(jTable1.getValueAt(selectedRow, 3).toString());
+                book.setCategory(jTable1.getValueAt(selectedRow, 4).toString());
+                book.setAvailableBooks((int) jTable1.getValueAt(selectedRow, 5));
+                
+                AddBookModel editFrame = new AddBookModel(book);
+                editFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        loadBooksToTable();
+                    }
+                });
+                editFrame.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this, "Error reading book data: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void removeBook() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+             int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Are you sure you want to remove this book?", 
+                "Confirm Removal", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+             
+             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                 try {
+                     int id = (int) jTable1.getValueAt(selectedRow, 0);
+                     Book book = new Book();
+                     book.setId(id);
+                     if (book.remove()) {
+                         javax.swing.JOptionPane.showMessageDialog(this, "Book removed successfully.");
+                         loadBooksToTable();
+                     } else {
+                         javax.swing.JOptionPane.showMessageDialog(this, "Failed to remove book.");
+                     }
+                 } catch (Exception ex) {
+                     ex.printStackTrace();
+                     javax.swing.JOptionPane.showMessageDialog(this, "Error removing book: " + ex.getMessage());
+                 }
+             }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

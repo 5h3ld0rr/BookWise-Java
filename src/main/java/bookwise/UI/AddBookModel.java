@@ -170,6 +170,22 @@ public class AddBookModel extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private bookwise.DataAccess.Book bookToEdit = null;
+
+    public AddBookModel(bookwise.DataAccess.Book book) {
+        this(); // Call default constructor to init components
+        this.bookToEdit = book;
+        if (book != null) {
+            setTitle("Edit Book");
+            buttonSave.setText("Update Book");
+            txtBoxTitle.setText(book.getTitle());
+            txtBoxISBN.setText(book.getIsbn()); // ISBN might be uneditable? Let's allow for now but maybe check usage.
+            txtBoxAuthor.setText(book.getAuthor());
+            txtBoxCategory.setText(book.getCategory());
+            numericUpDownNoOfBooks.setValue(book.getAvailableBooks());
+        }
+    }
+
     private void txtBoxTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBoxTitleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBoxTitleActionPerformed
@@ -195,21 +211,36 @@ public class AddBookModel extends javax.swing.JFrame {
              return;
         }
 
-        bookwise.DataAccess.Book newBook = new bookwise.DataAccess.Book();
-        newBook.setTitle(title);
-        newBook.setIsbn(isbn);
-        newBook.setAuthor(author);
-        newBook.setCategory(category);
-        newBook.setAvailableBooks(availableBooks);
+        bookwise.DataAccess.Book bookObj = new bookwise.DataAccess.Book();
+        if (bookToEdit != null) {
+            bookObj = bookToEdit; // Use the existing object to keep ID
+        }
 
-        if (newBook.isExisting()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "A book with this ISBN already exists", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        } else {
-            if (newBook.add()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Book added successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                this.dispose(); // Close the window
+        bookObj.setTitle(title);
+        bookObj.setIsbn(isbn);
+        bookObj.setAuthor(author);
+        bookObj.setCategory(category);
+        bookObj.setAvailableBooks(availableBooks);
+
+        if (bookToEdit == null) {
+            // New entry
+            if (bookObj.isExisting()) {
+               javax.swing.JOptionPane.showMessageDialog(this, "A book with this ISBN already exists", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Failed to add book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                if (bookObj.add()) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Book added successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose(); // Close the window
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Failed to add book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            // Update existing
+            if (bookObj.update()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Book updated successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Failed to update book", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
