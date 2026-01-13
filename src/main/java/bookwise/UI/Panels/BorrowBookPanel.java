@@ -22,6 +22,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         // Align ID spinner text to the left to match other fields
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinner1.getEditor();
         editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.LEFT);
+<<<<<<< HEAD
         
         // Make read-only fields
         jTextField1.setEditable(false); // Name
@@ -150,6 +151,8 @@ public class BorrowBookPanel extends javax.swing.JPanel {
              }
         });
         
+=======
+>>>>>>> 8e0407e5e7b2b7726d5b39fdd6ecf8001f8b9530
     }
 
     private boolean fetchUser() {
@@ -159,13 +162,11 @@ public class BorrowBookPanel extends javax.swing.JPanel {
             String email = jTextField3.getText().trim();
 
             if (userId <= 0 && nic.isEmpty() && email.isEmpty()) {
-                // Don't show popup on focus lost if empty, just return
                 return false;
             }
 
             bookwise.DataAccess.User user = bookwise.DataAccess.User.getUserByUniqueIdentifier(userId, nic, email);
             if (user != null) {
-                // Populate fields, including setting the ID if found via other means
                 jSpinner1.setValue(user.getId());
                 jTextField1.setText(user.getFirstName() + " " + user.getLastName());
                 jTextField2.setText(user.getNic());
@@ -174,10 +175,6 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                 jTextField5.setText(user.getAddress());
                 return true;
             } else {
-                // Only show alert if explicit action (button/enter) or meaningful input? 
-                 // Note: We might want to suppressing noise for passive focus lost, but usually button click needs feedback.
-                 // For now returning false lets the caller decide or just fail silently for passive events.
-                 // But for the button click, we explicitly check returning 'false' and show message there.
                 return false;
             }
         } catch (Exception e) {
@@ -311,6 +308,8 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField1.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField1.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField1.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
 
         jButton1.setBackground(new java.awt.Color(37, 56, 140));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -321,6 +320,11 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jButton1.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton1.setMinimumSize(new java.awt.Dimension(0, 0));
         jButton1.setPreferredSize(new java.awt.Dimension(111, 41));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("NIC  No");
@@ -333,6 +337,16 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField2.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField2.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField2.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setText("Name");
@@ -341,6 +355,8 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField5.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField5.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField5.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField5.setEditable(false);
+        jTextField5.setFocusable(false);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setText("ID  No");
@@ -349,6 +365,8 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField4.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField4.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField4.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField4.setEditable(false);
+        jTextField4.setFocusable(false);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setText("Email");
@@ -360,6 +378,16 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jTextField3.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField3.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField3.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField3FocusLost(evt);
+            }
+        });
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setText("Address");
@@ -440,34 +468,40 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         jButton2.setText("Confirm");
         jButton2.setFocusPainted(false);
         jButton2.setPreferredSize(new java.awt.Dimension(111, 41));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField7.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField7.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel10.setText("Category");
 
         jTextField6.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField6.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField6.setEditable(false);
+        jTextField6.setFocusable(false);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("ISBM  No");
 
         jTextField8.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField8.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
+        jTextField8.setEditable(false);
+        jTextField8.setFocusable(false);
 
         jTextField9.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField9.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
+        jTextField9.setEditable(false);
+        jTextField9.setFocusable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -548,14 +582,13 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70))))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -572,17 +605,104 @@ public class BorrowBookPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int userId = (Integer) jSpinner1.getValue();
+        String isbn = jTextField7.getText().trim();
+
+        if (userId <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please confirm a valid user first.", "Invalid User", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (isbn.isEmpty()) {
+             javax.swing.JOptionPane.showMessageDialog(this, "Please confirm a valid book first.", "Invalid Book", javax.swing.JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+
+        bookwise.DataAccess.Book[] borrowedBooks = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
+        int currentCount = borrowedBooks.length;
+        int maxBooks = bookwise.DataAccess.CommonData.Rules.MAX_BOOKS_PER_USER;
+
+        if (currentCount >= maxBooks) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "This user has reached the borrowing limit of " + maxBooks + " books.\n" +
+                "Current borrowed: " + currentCount, 
+                "Limit Reached", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
+        if (book == null) {
+             javax.swing.JOptionPane.showMessageDialog(this, "Book not found in database.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+
+        if (book.getAvailableBooks() <= 0) {
+             javax.swing.JOptionPane.showMessageDialog(this, "This book is currently out of stock.", "Out of Stock", javax.swing.JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+
+        boolean success = bookwise.DataAccess.BookTransaction.create(userId, book.getId());
+        if (success) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Book borrowed successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            jButton2.setText("Confirm");
+            toggleBookFields(true);
+            clearBookFields();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Failed to process transaction.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) {
+           if (fetchUser()) {
+               jButton1.setText("Edit");
+               toggleUserFields(false);
+           } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+           }
+       } else {
+           jButton1.setText("Confirm");
+           toggleUserFields(true);
+           clearUserFields();
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (jButton2.getText().equals("Confirm")) {
+            if (fetchBook()) {
+                jButton2.setText("Edit");
+                toggleBookFields(false);
+            }
+        } else {
+            jButton2.setText("Confirm");
+            toggleBookFields(true);
+            clearBookFields();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }//GEN-LAST:event_jTextField2FocusLost
+
+    private void jTextField3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField3FocusLost
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }//GEN-LAST:event_jTextField3FocusLost
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+        if (jButton2.getText().equals("Confirm")) fetchBook();
+    }//GEN-LAST:event_jTextField7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

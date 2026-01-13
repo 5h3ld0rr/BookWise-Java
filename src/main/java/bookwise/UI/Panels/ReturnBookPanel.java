@@ -15,13 +15,11 @@ public class ReturnBookPanel extends javax.swing.JPanel {
      */
     public ReturnBookPanel() {
         initComponents();
-        setupListeners();
-    }
-
-    private void setupListeners() {
+        
         // Align ID spinner text to the left
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinner1.getEditor();
         editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.LEFT);
+<<<<<<< HEAD
         
         // Make read-only fields
         jTextField1.setEditable(false); // Name
@@ -133,7 +131,11 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         });
         
         setOverdueFieldsVisible(false);
+=======
+>>>>>>> 8e0407e5e7b2b7726d5b39fdd6ecf8001f8b9530
     }
+
+
 
     private boolean fetchUser() {
         try {
@@ -352,11 +354,8 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jTextField4.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField4.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField4.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
+        jTextField4.setEditable(false);
+        jTextField4.setFocusable(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setText("Email");
@@ -379,6 +378,16 @@ public class ReturnBookPanel extends javax.swing.JPanel {
 
         jTextField3.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField3.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField3FocusLost(evt);
+            }
+        });
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(37, 56, 140));
         jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
@@ -407,22 +416,26 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jTextField5.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField5.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField5.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
+        jTextField5.setEditable(false);
+        jTextField5.setFocusable(false);
 
         jTextField1.setForeground(new java.awt.Color(30, 41, 50));
         jTextField1.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField1.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField1.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField1.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField1.setEditable(false);
+        jTextField1.setFocusable(false);
 
         jTextField2.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField2.setMaximumSize(new java.awt.Dimension(0, 0));
         jTextField2.setMinimumSize(new java.awt.Dimension(0, 0));
         jTextField2.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -495,23 +508,18 @@ public class ReturnBookPanel extends javax.swing.JPanel {
 
         jTextField6.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField6.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+        jTextField6.setEditable(false);
+        jTextField6.setFocusable(false);
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel12.setText("Fine");
 
         jTextField9.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField9.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
+        jTextField9.setEditable(false);
+        jTextField9.setFocusable(false);
 
+<<<<<<< HEAD
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField9ActionPerformed(evt);
@@ -520,6 +528,15 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         
         ddIsbn = new javax.swing.JComboBox<>();
         ddIsbn.setPreferredSize(new java.awt.Dimension(213, 29));
+=======
+        jTextField7.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        jTextField7.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
+>>>>>>> 8e0407e5e7b2b7726d5b39fdd6ecf8001f8b9530
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("ISBM  No");
@@ -541,15 +558,21 @@ public class ReturnBookPanel extends javax.swing.JPanel {
 
         jTextField8.setMargin(new java.awt.Insets(3, 3, 3, 3));
         jTextField8.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField8.setEditable(false);
+        jTextField8.setFocusable(false);
 
         jTextField11.setForeground(new java.awt.Color(255, 0, 0));
         jTextField11.setText("0.00");
+        jTextField11.setEditable(false);
+        jTextField11.setFocusable(false);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setText("Category");
 
         jTextField10.setForeground(new java.awt.Color(255, 0, 0));
         jTextField10.setText("0");
+        jTextField10.setEditable(false);
+        jTextField10.setFocusable(false);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel10.setText("Borrow Date");
@@ -630,11 +653,6 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jButton3.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton3.setMinimumSize(new java.awt.Dimension(0, 0));
         jButton3.setPreferredSize(new java.awt.Dimension(111, 141));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -669,37 +687,60 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) fetchUser();
     }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) {
+            if (fetchUser()) {
+                jButton1.setText("Edit");
+                toggleUserFields(false);
+            } else {
+                 javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            jButton1.setText("Confirm");
+            toggleUserFields(true);
+            clearUserFields();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
+        if (jButton2.getText().equals("Confirm")) {
+            if (fetchBook()) {
+                jButton2.setText("Edit");
+                toggleBookFields(false);
+            }
+        } else {
+            jButton2.setText("Confirm");
+            toggleBookFields(true);
+            clearBookFields();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {
+       // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }
+
+    private void jTextField3FocusLost(java.awt.event.FocusEvent evt) {
+        // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }
+    
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        if (jButton1.getText().equals("Confirm")) fetchUser();
+    }
+    
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        if (jButton2.getText().equals("Confirm")) fetchBook();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
