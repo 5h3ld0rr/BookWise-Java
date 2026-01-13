@@ -155,6 +155,12 @@ public class UsersPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Open AddUserModel window when button is clicked
         AddUserModel addUserFrame = new AddUserModel();
+        addUserFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                loadUsersToTable();
+            }
+        });
         addUserFrame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
