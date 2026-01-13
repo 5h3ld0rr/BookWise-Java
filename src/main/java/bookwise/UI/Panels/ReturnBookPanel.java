@@ -19,123 +19,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         // Align ID spinner text to the left
         javax.swing.JSpinner.DefaultEditor editor = (javax.swing.JSpinner.DefaultEditor) jSpinner1.getEditor();
         editor.getTextField().setHorizontalAlignment(javax.swing.JTextField.LEFT);
-<<<<<<< HEAD
-        
-        // Make read-only fields
-        jTextField1.setEditable(false); // Name
-        jTextField1.setFocusable(false);
-        jTextField4.setEditable(false); // Mobile
-        jTextField4.setFocusable(false);
-        jTextField5.setEditable(false); // Address
-        jTextField5.setFocusable(false);
-        
-        // Make Book info read-only (except ISBN)
-        jTextField6.setEditable(false); 
-        jTextField6.setFocusable(false);
-        jTextField8.setEditable(false); 
-        jTextField8.setFocusable(false);
-        jTextField9.setEditable(false);
-        jTextField9.setFocusable(false);
-        jTextField10.setEditable(false);
-        jTextField10.setFocusable(false);
-        jTextField11.setEditable(false);
-        jTextField11.setFocusable(false);
-
-        // User Fetch Listeners
-        jButton1.addActionListener(e -> {
-            if (jButton1.getText().equals("Confirm")) {
-                if (fetchUser()) {
-                    jButton1.setText("Edit");
-                    toggleUserFields(false);
-                } else {
-                     javax.swing.JOptionPane.showMessageDialog(this, "User not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                }
-            } else {
-                jButton1.setText("Confirm");
-                toggleUserFields(true);
-                clearUserFields();
-                clearBookFields();
-                ddIsbn.removeAllItems();
-            }
-            checkReturnButtonVisibility();
-        });
-        
-        // Fetch on Enter (Search only)
-        jTextField2.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // NIC
-        jTextField3.addActionListener(e -> { if (jButton1.getText().equals("Confirm")) fetchUser(); }); // Email
-
-        // Fetch on Focus Lost
-        java.awt.event.FocusAdapter fetchFocusListener = new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (jButton1.getText().equals("Confirm")) fetchUser();
-            }
-        };
-        jTextField2.addFocusListener(fetchFocusListener);
-        jTextField3.addFocusListener(fetchFocusListener);
-
-        // Book Fetch Listeners
-        jButton2.addActionListener(e -> {
-            if (jButton2.getText().equals("Confirm")) {
-                if (fetchBook()) {
-                    jButton2.setText("Edit");
-                    toggleBookFields(false);
-                }
-            } else {
-                jButton2.setText("Confirm");
-                toggleBookFields(true);
-                clearBookFields();
-            }
-            checkReturnButtonVisibility();
-        });
-        ddIsbn.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent e) {
-                if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-                     fetchBook();
-                }
-            }
-        });
-        
-        // Return Button Logic
-        jButton3.setText("Return Book");
-        jButton3.setVisible(false);
-        jButton3.addActionListener(e -> {
-            int userId = (Integer) jSpinner1.getValue();
-            String isbn = (String) ddIsbn.getSelectedItem();
-            
-            if (userId <= 0 || isbn == null || isbn.isEmpty()) return;
-            
-            // Find Transaction
-            bookwise.DataAccess.Book[] borrowed = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
-            int transactionId = -1;
-            for (bookwise.DataAccess.Book b : borrowed) {
-                if (b.getIsbn().equals(isbn)) {
-                    transactionId = b.getTransactionId();
-                    break;
-                }
-            }
-            
-            if (transactionId != -1) {
-                if (bookwise.DataAccess.BookTransaction.updateReturn(transactionId)) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Book returned successfully!");
-                    // Reset
-                    jButton2.setText("Confirm");
-                    toggleBookFields(true);
-                    clearBookFields();
-                    checkReturnButtonVisibility();
-                } else {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Error processing return.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                 javax.swing.JOptionPane.showMessageDialog(this, "This book is not currently borrowed by this user.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        });
-        
-        setOverdueFieldsVisible(false);
-=======
->>>>>>> 8e0407e5e7b2b7726d5b39fdd6ecf8001f8b9530
     }
-
-
 
     private boolean fetchUser() {
         try {
@@ -519,24 +403,10 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jTextField9.setEditable(false);
         jTextField9.setFocusable(false);
 
-<<<<<<< HEAD
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
         
         ddIsbn = new javax.swing.JComboBox<>();
         ddIsbn.setPreferredSize(new java.awt.Dimension(213, 29));
-=======
-        jTextField7.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        jTextField7.setPreferredSize(new java.awt.Dimension(213, 29));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
->>>>>>> 8e0407e5e7b2b7726d5b39fdd6ecf8001f8b9530
+
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("ISBM  No");
@@ -735,11 +605,6 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         if (jButton1.getText().equals("Confirm")) fetchUser();
-    }
-    
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        if (jButton2.getText().equals("Confirm")) fetchBook();
     }
 
 
