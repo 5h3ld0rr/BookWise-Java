@@ -11,12 +11,36 @@ import bookwise.DataAccess.User;
  * @author wsr
  */
 public class AddUserModel extends javax.swing.JFrame {
+    
+    private User userToEdit;
 
     /**
      * Creates new form AddUserModel
      */
     public AddUserModel() {
         initComponents();
+    }
+
+    public AddUserModel(User user) {
+        initComponents();
+        this.userToEdit = user;
+        populateForm();
+    }
+
+    private void populateForm() {
+        if (userToEdit == null) return;
+        
+        setTitle("Edit User");
+        buttonSave.setText("Update User");
+        
+        numericUpDownId.setValue(userToEdit.getId());
+        textBoxFName.setText(userToEdit.getFirstName());
+        textBoxLName.setText(userToEdit.getLastName());
+        textBoxEmail.setText(userToEdit.getEmail());
+        textBoxNic.setText(userToEdit.getNic());
+        txtBoxPhoneNo.setText(userToEdit.getPhone());
+        textBoxAddress.setText(userToEdit.getAddress());
+        comboBoxRole.setSelectedItem(userToEdit.getRole());
     }
 
     /**
@@ -341,56 +365,91 @@ public class AddUserModel extends javax.swing.JFrame {
             return;
         }
 
-        // Create a User object and populate it with form data
-        User user = new User();
-        user.setFirstName(textBoxFName.getText().trim());
-        user.setLastName(textBoxLName.getText().trim());
-        user.setEmail(textBoxEmail.getText().trim());
-        user.setNic(textBoxNic.getText().trim());
-        user.setPhone(txtBoxPhoneNo.getText().trim());
-        user.setAddress(textBoxAddress.getText().trim());
-        String selectedRole = (String) comboBoxRole.getSelectedItem();
-        user.setRole(selectedRole);
-        
-        // Only set ID and password for Admin role
-        if ("Admin".equals(selectedRole)) {
-            user.setId((Integer) numericUpDownId.getValue());
-            user.setPassword(new String(textBoxPassword.getPassword()).trim());
+        if (userToEdit != null) {
+            // Update existing user
+            userToEdit.setFirstName(textBoxFName.getText().trim());
+            userToEdit.setLastName(textBoxLName.getText().trim());
+            userToEdit.setEmail(textBoxEmail.getText().trim());
+            userToEdit.setNic(textBoxNic.getText().trim());
+            userToEdit.setPhone(txtBoxPhoneNo.getText().trim());
+            userToEdit.setAddress(textBoxAddress.getText().trim());
+            String selectedRole = (String) comboBoxRole.getSelectedItem();
+            userToEdit.setRole(selectedRole);
+            
+            // Allow updating ID only if necessary/safe, generally ID shouldn't change but logic allows it if code permits
+             userToEdit.setId((Integer) numericUpDownId.getValue());
+
+            String newPassword = new String(textBoxPassword.getPassword()).trim();
+            if (!newPassword.isEmpty()) {
+                userToEdit.setPassword(newPassword);
+            } else {
+                userToEdit.setPassword(null); // Signal not to change password
+            }
+
+            if (userToEdit.update()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User updated successfully!", 
+                    "Success", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Failed to update user. Please try again.", 
+                    "Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            user.setPassword(null);  // Staff and Students are beneficiaries, not system users
-        }
+            // Create a User object and populate it with form data
+            User user = new User();
+            user.setFirstName(textBoxFName.getText().trim());
+            user.setLastName(textBoxLName.getText().trim());
+            user.setEmail(textBoxEmail.getText().trim());
+            user.setNic(textBoxNic.getText().trim());
+            user.setPhone(txtBoxPhoneNo.getText().trim());
+            user.setAddress(textBoxAddress.getText().trim());
+            String selectedRole = (String) comboBoxRole.getSelectedItem();
+            user.setRole(selectedRole);
+            
+            // Only set ID and password for Admin role
+            if ("Admin".equals(selectedRole)) {
+                user.setId((Integer) numericUpDownId.getValue());
+                user.setPassword(new String(textBoxPassword.getPassword()).trim());
+            } else {
+                user.setPassword(null);  // Staff and Students are beneficiaries, not system users
+            }
 
-        // Check for duplicate email or NIC
-        if (user.isDuplicateEmailOrNic()) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "User already exists with this Email or NIC.", 
-                "Duplicate User", 
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+            // Check for duplicate email or NIC
+            if (user.isDuplicateEmailOrNic()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User already exists with this Email or NIC.", 
+                    "Duplicate User", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-        // For Admin role, also check for duplicate ID
-        if ("Admin".equals(selectedRole) && user.isRegistered()) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "User already exists with this ID.", 
-                "Duplicate User", 
-                javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+            // For Admin role, also check for duplicate ID
+            if ("Admin".equals(selectedRole) && user.isRegistered()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User already exists with this ID.", 
+                    "Duplicate User", 
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-        // Register the user
-        if (user.register()) {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "User added successfully!", 
-                "Success", 
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            clearForm();
-            this.dispose();
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                "Failed to add user. Please try again.", 
-                "Error", 
-                javax.swing.JOptionPane.ERROR_MESSAGE);
+            // Register the user
+            if (user.register()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "User added successfully!", 
+                    "Success", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                this.dispose();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Failed to add user. Please try again.", 
+                    "Error", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
@@ -483,7 +542,8 @@ public class AddUserModel extends javax.swing.JFrame {
         String selectedRole = (String) comboBoxRole.getSelectedItem();
         if ("Admin".equals(selectedRole)) {
             String password = new String(textBoxPassword.getPassword()).trim();
-            if (password.isEmpty()) {
+            // If editing, allow empty password (means no change)
+            if (password.isEmpty() && userToEdit == null) {
                 javax.swing.JOptionPane.showMessageDialog(this, 
                     "Password is required for Admin role.", 
                     "Validation Error", 
