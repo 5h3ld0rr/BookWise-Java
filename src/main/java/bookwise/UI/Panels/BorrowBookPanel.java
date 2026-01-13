@@ -53,6 +53,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                 toggleUserFields(true);
                 clearUserFields();
             }
+            checkBorrowButtonVisibility();
         });
         
         // Fetch on Enter (Search only)
@@ -80,11 +81,14 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                 toggleBookFields(true);
                 clearBookFields();
             }
+            checkBorrowButtonVisibility();
         });
         jTextField7.addActionListener(e -> { if (jButton2.getText().equals("Confirm")) fetchBook(); }); // Fetch on Enter in ISBN field
         
         // BORROW BUTTON (Proceed)
         jButton3.setText("Borrow");
+        jButton3.setVisible(false); // Initially hidden
+        
         jButton3.addActionListener(e -> {
              int userId = (Integer) jSpinner1.getValue();
              String isbn = jTextField7.getText().trim();
@@ -140,6 +144,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
                  jButton2.setText("Confirm");
                  toggleBookFields(true);
                  clearBookFields();
+                 checkBorrowButtonVisibility(); // Update visibility
              } else {
                  javax.swing.JOptionPane.showMessageDialog(this, "Failed to process transaction.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
              }
@@ -241,6 +246,12 @@ public class BorrowBookPanel extends javax.swing.JPanel {
     private void toggleBookFields(boolean enable) {
         jTextField7.setEditable(enable);
         jTextField7.setFocusable(enable);
+    }
+    
+    private void checkBorrowButtonVisibility() {
+        boolean userConfirmed = jButton1.getText().equals("Edit");
+        boolean bookConfirmed = jButton2.getText().equals("Edit");
+        jButton3.setVisible(userConfirmed && bookConfirmed);
     }
 
 

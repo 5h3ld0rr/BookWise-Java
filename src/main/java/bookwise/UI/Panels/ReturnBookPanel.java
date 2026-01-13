@@ -56,7 +56,10 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 jButton1.setText("Confirm");
                 toggleUserFields(true);
                 clearUserFields();
+                clearBookFields();
+                ddIsbn.removeAllItems();
             }
+            checkReturnButtonVisibility();
         });
         
         // Fetch on Enter (Search only)
@@ -84,8 +87,52 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 toggleBookFields(true);
                 clearBookFields();
             }
+            checkReturnButtonVisibility();
         });
-        jTextField7.addActionListener(e -> { if (jButton2.getText().equals("Confirm")) fetchBook(); }); // ISBN field
+        ddIsbn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent e) {
+                if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                     fetchBook();
+                }
+            }
+        });
+        
+        // Return Button Logic
+        jButton3.setText("Return Book");
+        jButton3.setVisible(false);
+        jButton3.addActionListener(e -> {
+            int userId = (Integer) jSpinner1.getValue();
+            String isbn = (String) ddIsbn.getSelectedItem();
+            
+            if (userId <= 0 || isbn == null || isbn.isEmpty()) return;
+            
+            // Find Transaction
+            bookwise.DataAccess.Book[] borrowed = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
+            int transactionId = -1;
+            for (bookwise.DataAccess.Book b : borrowed) {
+                if (b.getIsbn().equals(isbn)) {
+                    transactionId = b.getTransactionId();
+                    break;
+                }
+            }
+            
+            if (transactionId != -1) {
+                if (bookwise.DataAccess.BookTransaction.updateReturn(transactionId)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Book returned successfully!");
+                    // Reset
+                    jButton2.setText("Confirm");
+                    toggleBookFields(true);
+                    clearBookFields();
+                    checkReturnButtonVisibility();
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Error processing return.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                 javax.swing.JOptionPane.showMessageDialog(this, "This book is not currently borrowed by this user.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        
+        setOverdueFieldsVisible(false);
     }
 
     private boolean fetchUser() {
@@ -107,6 +154,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 jTextField3.setText(user.getEmail()); 
                 jTextField4.setText(user.getPhone()); 
                 jTextField5.setText(user.getAddress()); 
+                populateBorrowedDropdown(userId);
                 return true;
             } else {
                // Optional: feedback
@@ -128,18 +176,41 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }
 
     private boolean fetchBook() {
-         String isbn = jTextField7.getText().trim();
-        if (isbn.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter an ISBN number.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
+         String isbn = (String) ddIsbn.getSelectedItem();
+         if (isbn == null || isbn.isEmpty()) {
+             // If manual entry was allowed, we'd check text. But for dropdown:
+             // javax.swing.JOptionPane.showMessageDialog(this, "Please select an ISBN.", "Missing Input", javax.swing.JOptionPane.WARNING_MESSAGE);
+             return false;
+         }
 
         bookwise.DataAccess.Book book = bookwise.DataAccess.Book.get(isbn);
         if (book != null) {
             jTextField6.setText(book.getTitle());
             jTextField8.setText(book.getCategory()); 
-            // Note: jTextField8 is Category in Return Panel. 
-            // We are leaving Author out as it's not mapped in UI currently.
+            
+            // Populate Borrow Date and Fine
+            bookwise.DataAccess.Book[] borrowed = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser((Integer) jSpinner1.getValue());
+            for (bookwise.DataAccess.Book b : borrowed) {
+                if (b.getIsbn().equals(isbn)) {
+                     java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                     if (b.getBorrowDate() != null) {
+                        java.time.LocalDateTime localDate = b.getBorrowDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+                        jTextField9.setText(formatter.format(localDate));
+                     
+                        bookwise.DataAccess.BookTransaction.ReturnDetails details = 
+                            bookwise.DataAccess.BookTransaction.getReturnDetailsByBorrowDate(localDate);
+                     
+                        if (details.daysOverdue > 0) {
+                            setOverdueFieldsVisible(true);
+                            jTextField10.setText(String.valueOf(details.daysOverdue));
+                            jTextField11.setText(String.format("%.2f", details.fine));
+                        } else {
+                            setOverdueFieldsVisible(false);
+                        }
+                     }
+                     break;
+                }
+            }
             return true;
         } else {
              javax.swing.JOptionPane.showMessageDialog(this, "Book not found.", "Not Found", javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -148,13 +219,47 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         }
     }
 
+    private void populateBorrowedDropdown(int userId) {
+        // Disable listener temporarily if needed, or just handle logic.
+        // removeAllItems triggers events.
+        ddIsbn.removeItemListener(ddIsbn.getItemListeners()[0]); // Remove to avoid events
+        ddIsbn.removeAllItems();
+        
+        bookwise.DataAccess.Book[] books = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
+        for (bookwise.DataAccess.Book b : books) {
+            ddIsbn.addItem(b.getIsbn());
+        }
+        ddIsbn.setSelectedIndex(-1);
+        
+        // Add listener back
+        ddIsbn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent e) {
+                if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                     fetchBook();
+                }
+            }
+        });
+        
+        clearBookFields(); // Ensure fields are empty
+    }
+
     private void clearBookFields() {
          jTextField6.setText("");
          jTextField8.setText("");
          jTextField9.setText(""); 
          jTextField10.setText("0"); 
          jTextField11.setText("0.00"); 
-         jTextField7.setText(""); 
+         // ddIsbn.setSelectedIndex(-1); // Don't clear dropdown on clear fields if user context remains
+         setOverdueFieldsVisible(false);
+    }
+
+    private void setOverdueFieldsVisible(boolean visible) {
+        if (jLabel11 != null) {
+             jLabel11.setVisible(visible);
+             jTextField10.setVisible(visible);
+             jLabel12.setVisible(visible);
+             jTextField11.setVisible(visible);
+        }
     }
     
     private void toggleUserFields(boolean enable) {
@@ -179,14 +284,21 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     }
     
     private void toggleBookFields(boolean enable) {
-        jTextField7.setEditable(enable);
-        jTextField7.setFocusable(enable);
+        ddIsbn.setEnabled(enable);
+    }
+    
+    private void checkReturnButtonVisibility() {
+        boolean userConfirmed = jButton1.getText().equals("Edit");
+        boolean bookConfirmed = jButton2.getText().equals("Edit");
+        jButton3.setVisible(userConfirmed && bookConfirmed);
     }
     
     public void setBook(String isbn) {
         if (isbn != null && !isbn.isEmpty()) {
-            jTextField7.setText(isbn);
-            fetchBook();
+            // ddIsbn.setSelectedItem(isbn); // If items are populated
+            // Note: If items are not populated (user not confirmed), this won't work well.
+            // But logic requires Confirmation first. 
+            // So we just store it or ignore.
         }
     }
 
@@ -217,7 +329,6 @@ public class ReturnBookPanel extends javax.swing.JPanel {
         jTextField6 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jTextField8 = new javax.swing.JTextField();
@@ -401,8 +512,14 @@ public class ReturnBookPanel extends javax.swing.JPanel {
             }
         });
 
-        jTextField7.setMargin(new java.awt.Insets(3, 3, 3, 3));
-        jTextField7.setPreferredSize(new java.awt.Dimension(213, 29));
+        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField9ActionPerformed(evt);
+            }
+        });
+        
+        ddIsbn = new javax.swing.JComboBox<>();
+        ddIsbn.setPreferredSize(new java.awt.Dimension(213, 29));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setText("ISBM  No");
@@ -462,7 +579,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ddIsbn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -478,7 +595,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ddIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -589,6 +706,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> ddIsbn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -613,7 +731,6 @@ public class ReturnBookPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
