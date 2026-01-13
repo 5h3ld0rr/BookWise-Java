@@ -45,7 +45,7 @@ public class BooksPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(929, 541));
 
         jButton2.setBackground(new java.awt.Color(37, 56, 140));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Add a New Book");
         jButton2.setFocusPainted(false);
@@ -100,14 +100,14 @@ public class BooksPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(39, 39, 39))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,33 +116,52 @@ public class BooksPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addGap(40, 40, 40))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        
         AddBookModel addBookFrame = new AddBookModel();
+        addBookFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                loadBooksToTable();
+            }
+        });
         addBookFrame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
     
     private void loadBooksToTable() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        Book[] books = Book.getAll();
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            model.addRow(new Object[]{"Loading data...", "", "", "", null});
+        });
 
-        for (Book book : books) {
-            Object[] row = {
-                book.getTitle(),
-                book.getIsbn(),
-                book.getAuthor(),
-                book.getCategory(),
-                book.getAvailableBooks()
-            };
-            model.addRow(row);
-        }
+        new Thread(() -> {
+            Book[] books = Book.getAll();
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                for (Book book : books) {
+                    Object[] row = {
+                        book.getTitle(),
+                        book.getIsbn(),
+                        book.getAuthor(),
+                        book.getCategory(),
+                        book.getAvailableBooks()
+                    };
+                    model.addRow(row);
+                }
+                setCursor(java.awt.Cursor.getDefaultCursor());
+            });
+        }).start();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

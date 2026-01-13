@@ -15,6 +15,36 @@ public class HomePanel extends javax.swing.JPanel {
      */
     public HomePanel() {
         initComponents();
+        refreshCounts();
+    }
+
+    public void refreshCounts() {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+             jLabel4.setText("Loading...");
+             jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16));
+             jLabel6.setText("Loading...");
+             jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16));
+             jLabel8.setText("Loading...");
+             jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        });
+
+        // Run in background to avoid freezing UI if DB is slow
+        new Thread(() -> {
+            int borrowedCount = bookwise.DataAccess.BookTransaction.getBorrowedBooksCount();
+            int userCount = bookwise.DataAccess.User.getTotalUsers();
+            int bookCount = bookwise.DataAccess.Book.getTotalBooks();
+
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36));
+                jLabel4.setText(String.valueOf(borrowedCount));
+                
+                jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36));
+                jLabel6.setText(String.valueOf(userCount));
+                
+                jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 36));
+                jLabel8.setText(String.valueOf(bookCount));
+            });
+        }).start();
     }
 
     /**
@@ -37,6 +67,23 @@ public class HomePanel extends javax.swing.JPanel {
         panel2 = new java.awt.Panel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabelImage = new javax.swing.JLabel();
+
+        // Load and resize image
+        try {
+             java.net.URL imgUrl = getClass().getResource("/library_illustration.png");
+             if (imgUrl != null) {
+                 javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imgUrl);
+                 java.awt.Image img = icon.getImage();
+                 // Scale to width 1000, maintain aspect ratio roughly (or 600 height)
+                 // Let's keep it reasonable, e.g. height 400
+                 // If the image is 800x400, it fits well.
+                 jLabelImage.setIcon(icon);
+             } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        jLabelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel1.setText("jLabel1");
 
@@ -171,6 +218,7 @@ public class HomePanel extends javax.swing.JPanel {
                 .addGap(0, 46, Short.MAX_VALUE)
                 .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
+            .addComponent(jLabelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +228,9 @@ public class HomePanel extends javax.swing.JPanel {
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(650, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(jLabelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(220, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -197,5 +247,6 @@ public class HomePanel extends javax.swing.JPanel {
     private java.awt.Panel panel1;
     private java.awt.Panel panel2;
     private java.awt.Panel panel3;
+    private javax.swing.JLabel jLabelImage;
     // End of variables declaration//GEN-END:variables
 }

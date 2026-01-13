@@ -233,4 +233,18 @@ public class BookTransaction {
         }
         return list;
     }
+
+    public static int getBorrowedBooksCount() {
+        String sql = "SELECT COUNT(*) FROM book_transactions WHERE return_date IS NULL";
+        try (Connection conn = DB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

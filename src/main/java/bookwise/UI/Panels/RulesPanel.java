@@ -146,7 +146,44 @@ public class RulesPanel extends javax.swing.JPanel {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
+        // Load existing rules
+        bookwise.DataAccess.CommonData.Rules.load();
+        jSpinner1.setValue(bookwise.DataAccess.CommonData.Rules.MAX_BOOKS_PER_USER);
+        jSpinner2.setValue(bookwise.DataAccess.CommonData.Rules.MAX_DAYS_TO_RETURN);
+        jSpinner3.setValue(bookwise.DataAccess.CommonData.Rules.FINE_PER_DAY);
+
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        int maxBooks = (int) jSpinner1.getValue();
+        int maxDays = (int) jSpinner2.getValue();
+        
+        // Handle double for fine. JSpinner default model might be integer or generic. 
+        // Safer to cast object to string then parse, or cast if model is Number.
+        double fine = 0.0;
+        Object fineVal = jSpinner3.getValue();
+        if (fineVal instanceof Number) {
+            fine = ((Number) fineVal).doubleValue();
+        } else {
+             try {
+                fine = Double.parseDouble(fineVal.toString());
+             } catch (NumberFormatException e) {
+                 javax.swing.JOptionPane.showMessageDialog(this, "Invalid fine amount", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                 return;
+             }
+        }
+
+        if (bookwise.DataAccess.CommonData.Rules.save(maxBooks, maxDays, fine)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Rules updated successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Failed to update rules. Ensure values are non-negative.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

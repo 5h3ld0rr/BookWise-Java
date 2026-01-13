@@ -1,8 +1,5 @@
 package bookwise;
 
-
-import java.io.File;
-
 public class Config {
 
     // Database Configuration

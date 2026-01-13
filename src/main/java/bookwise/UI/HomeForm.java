@@ -37,6 +37,7 @@ public class HomeForm extends javax.swing.JFrame {
         username.setText(name);
         SideBarBtns = new JButton[] {buttonHome, buttonBorrow, buttonReturn, buttonBooks, buttonUsers, buttonHistory, buttonRules };
         showPanel(new HomePanel());
+        panel1.setVisible(false);
     }
 
     /**
@@ -163,7 +164,7 @@ public class HomeForm extends javax.swing.JFrame {
         buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
         buttonUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/users.png"))); // NOI18N
-        buttonUsers.setText("  All  Users");
+        buttonUsers.setText("  All Users");
         buttonUsers.setBorder(null);
         buttonUsers.setFocusPainted(false);
         buttonUsers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -437,42 +438,49 @@ public class HomeForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         HighlightButton(buttonRules);
         showPanel(new RulesPanel());
+        panel1.setVisible(false);
     }//GEN-LAST:event_buttonRulesActionPerformed
 
     private void buttonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistoryActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonHistory);
         showPanel(new HistoryPanel());
+        panel1.setVisible(false);
     }//GEN-LAST:event_buttonHistoryActionPerformed
 
     private void buttonUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUsersActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonUsers);
         showPanel(new UsersPanel());
+        panel1.setVisible(true);
     }//GEN-LAST:event_buttonUsersActionPerformed
 
     private void buttonBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBooksActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonBooks);
         showPanel(new BooksPanel());
+        panel1.setVisible(true);
     }//GEN-LAST:event_buttonBooksActionPerformed
 
     private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReturnActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonReturn);
         showPanel(new ReturnBookPanel());
+        panel1.setVisible(false);
     }//GEN-LAST:event_buttonReturnActionPerformed
 
     private void buttonBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBorrowActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonBorrow);
         showPanel(new BorrowBookPanel());
+        panel1.setVisible(false);
     }//GEN-LAST:event_buttonBorrowActionPerformed
 
     private void buttonHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHomeActionPerformed
         // TODO add your handling code here:
         HighlightButton(buttonHome);
         showPanel(new HomePanel());
+        panel1.setVisible(false);
     }//GEN-LAST:event_buttonHomeActionPerformed
 
     /**
