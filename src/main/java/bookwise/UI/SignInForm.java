@@ -17,6 +17,7 @@ public class SignInForm extends javax.swing.JFrame {
     /** Creates new form SignInForm */
     public SignInForm() {
         initComponents();
+        getRootPane().setDefaultButton(buttonLogin);
     }
 
     /** This method is called from within the constructor to
@@ -244,7 +245,7 @@ public class SignInForm extends javax.swing.JFrame {
 
     private void textBoxEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBoxEmailActionPerformed
 // TODO add your handling code here:
-        
+    textBoxPassword.requestFocus(); 
     }//GEN-LAST:event_textBoxEmailActionPerformed
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
