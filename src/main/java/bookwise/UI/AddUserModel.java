@@ -148,6 +148,17 @@ public class AddUserModel extends javax.swing.JFrame {
 
         checkBoxShowPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         checkBoxShowPassword.setLabel("Show Password");
+        checkBoxShowPassword.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent e) {
+                 if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                     textBoxPassword.setEchoChar((char) 0);
+                     textBoxConfirmPassword.setEchoChar((char) 0);
+                 } else {
+                     textBoxPassword.setEchoChar('\u2022');
+                     textBoxConfirmPassword.setEchoChar('\u2022');
+                 }
+            }
+        });
 
         textBoxNic.setMargin(new java.awt.Insets(3, 3, 3, 3));
         textBoxNic.setMaximumSize(new java.awt.Dimension(0, 0));
