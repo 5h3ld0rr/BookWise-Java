@@ -128,6 +128,11 @@ public class RulesPanel extends javax.swing.JPanel {
         jButton1.setMaximumSize(new java.awt.Dimension(0, 0));
         jButton1.setMinimumSize(new java.awt.Dimension(0, 0));
         jButton1.setPreferredSize(new java.awt.Dimension(135, 50));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -155,7 +160,8 @@ public class RulesPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
         int maxBooks = (int) jSpinner1.getValue();
         int maxDays = (int) jSpinner2.getValue();
         
@@ -179,7 +185,8 @@ public class RulesPanel extends javax.swing.JPanel {
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Failed to update rules. Ensure values are non-negative.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
