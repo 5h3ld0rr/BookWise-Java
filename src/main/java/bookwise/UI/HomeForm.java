@@ -164,7 +164,7 @@ public class HomeForm extends javax.swing.JFrame {
         buttonUsers.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         buttonUsers.setForeground(new java.awt.Color(30, 41, 59));
         buttonUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/users.png"))); // NOI18N
-        buttonUsers.setText("  All  Users");
+        buttonUsers.setText("  All Users");
         buttonUsers.setBorder(null);
         buttonUsers.setFocusPainted(false);
         buttonUsers.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
