@@ -15,6 +15,13 @@ public class RulesPanel extends javax.swing.JPanel {
      */
     public RulesPanel() {
         initComponents();
+        // Load existing rules
+        new Thread(() -> {
+            bookwise.DataAccess.CommonData.Rules.load();
+            jSpinner1.setValue(bookwise.DataAccess.CommonData.Rules.MAX_BOOKS_PER_USER);
+            jSpinner2.setValue(bookwise.DataAccess.CommonData.Rules.MAX_DAYS_TO_RETURN);
+            jSpinner3.setValue(bookwise.DataAccess.CommonData.Rules.FINE_PER_DAY);
+        }).start();
     }
 
     /**
@@ -56,9 +63,9 @@ public class RulesPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,17 +153,6 @@ public class RulesPanel extends javax.swing.JPanel {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
-        // Load existing rules
-        bookwise.DataAccess.CommonData.Rules.load();
-        jSpinner1.setValue(bookwise.DataAccess.CommonData.Rules.MAX_BOOKS_PER_USER);
-        jSpinner2.setValue(bookwise.DataAccess.CommonData.Rules.MAX_DAYS_TO_RETURN);
-        jSpinner3.setValue(bookwise.DataAccess.CommonData.Rules.FINE_PER_DAY);
-
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
