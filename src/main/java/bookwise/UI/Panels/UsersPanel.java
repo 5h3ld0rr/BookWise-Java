@@ -316,6 +316,14 @@ public class UsersPanel extends javax.swing.JPanel {
                 int row = jTable1.rowAtPoint(e.getPoint());
                 if (row >= 0 && row < jTable1.getRowCount()) {
                     jTable1.setRowSelectionInterval(row, row);
+                    
+                    // Check restrictions for Staff users
+                    String role = jTable1.getValueAt(row, 5).toString();
+                    if ("Staff".equalsIgnoreCase(bookwise.UI.HomeForm.userRole) && 
+                       ("Admin".equalsIgnoreCase(role) || "Staff".equalsIgnoreCase(role))) {
+                        return; // Do not show popup
+                    }
+                    
                     popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }

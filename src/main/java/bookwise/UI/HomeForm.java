@@ -42,7 +42,28 @@ public class HomeForm extends javax.swing.JFrame {
         userRole = role;
         username.setText(name);
         SideBarBtns = new JButton[] {buttonHome, buttonBorrow, buttonReturn, buttonBooks, buttonUsers, buttonHistory, buttonRules };
+        applyRoleBasedAccess();
+    }
+
+    private void applyRoleBasedAccess() {
+        // Everyone gets the standard operational buttons
+        buttonHome.setVisible(true);
+        buttonBorrow.setVisible(true);
+        buttonReturn.setVisible(true);
+        buttonBooks.setVisible(true);
+        buttonUsers.setVisible(true);
+        buttonHistory.setVisible(true);
+        
+        // Only Admin gets the Rules button
+        if ("Admin".equalsIgnoreCase(userRole)) {
+            buttonRules.setVisible(true);
+        } else {
+            buttonRules.setVisible(false);
+        }
+        
+        // Always start at Home
         showPanel(new HomePanel());
+        HighlightButton(buttonHome);
     }
 
     /**
