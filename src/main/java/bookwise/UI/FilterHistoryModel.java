@@ -21,6 +21,7 @@ public class FilterHistoryModel extends javax.swing.JFrame {
      */
     public FilterHistoryModel() {
         initComponents();
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
     }
 
     /**

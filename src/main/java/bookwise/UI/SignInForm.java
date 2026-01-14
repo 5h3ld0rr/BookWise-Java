@@ -17,6 +17,7 @@ public class SignInForm extends javax.swing.JFrame {
     /** Creates new form SignInForm */
     public SignInForm() {
         initComponents();
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
         getRootPane().setDefaultButton(buttonLogin);
     }
 

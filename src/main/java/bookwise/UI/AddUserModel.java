@@ -19,6 +19,7 @@ public class AddUserModel extends javax.swing.JFrame {
      */
     public AddUserModel() {
         initComponents();
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
         restrictRolesForStaff();
         checkRolePermissions();
     }

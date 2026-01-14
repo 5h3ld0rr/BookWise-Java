@@ -15,6 +15,7 @@ public class AddBookModel extends javax.swing.JFrame {
      */
     public AddBookModel() {
         initComponents();
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
     }
 
     /**

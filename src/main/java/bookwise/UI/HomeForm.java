@@ -37,6 +37,7 @@ public class HomeForm extends javax.swing.JFrame {
     public HomeForm(String name, Integer id, String role) {
         instance = this;
         initComponents();
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/logo.png")));
         userName = name;
         userId = id;
         userRole = role;
