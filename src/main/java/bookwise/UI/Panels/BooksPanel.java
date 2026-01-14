@@ -22,14 +22,18 @@ public class BooksPanel extends javax.swing.JPanel {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
     
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         jTable1.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
         
         // Table Styling
         jTable1.setShowVerticalLines(false);
+        jTable1.setSelectionBackground(new java.awt.Color(244, 244, 244));
+        jTable1.setSelectionForeground(new java.awt.Color(51, 51, 51));
         jTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        jTable1.getTableHeader().setPreferredSize(new java.awt.Dimension(jTable1.getTableHeader().getPreferredSize().width, 40));
         jTable1.getTableHeader().setOpaque(false);
         jTable1.getTableHeader().setBackground(new java.awt.Color(248, 248, 255));
         jTable1.getTableHeader().setForeground(new java.awt.Color(30, 41, 59));
