@@ -627,6 +627,7 @@ public class ReturnBookPanel extends javax.swing.JPanel {
             jButton2.setText("Confirm");
             toggleBookFields(true);
             clearBookFields();
+            checkProceedButtonVisibility();
             
         } else {
              javax.swing.JOptionPane.showMessageDialog(this, "Failed to return book.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);

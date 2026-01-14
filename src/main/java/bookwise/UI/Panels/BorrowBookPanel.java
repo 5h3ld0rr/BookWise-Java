@@ -518,6 +518,7 @@ public class BorrowBookPanel extends javax.swing.JPanel {
             jButton2.setText("Confirm");
             toggleBookFields(true);
             clearBookFields();
+            checkProceedButtonVisibility();
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Failed to process transaction.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
