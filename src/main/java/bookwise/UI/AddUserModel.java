@@ -369,6 +369,7 @@ public class AddUserModel extends javax.swing.JFrame {
         } else {
             // Create a User object and populate it with form data
             User user = new User();
+            user.setId((Integer) numericUpDownId.getValue());
             user.setFirstName(textBoxFName.getText().trim());
             user.setLastName(textBoxLName.getText().trim());
             user.setEmail(textBoxEmail.getText().trim());
@@ -380,7 +381,6 @@ public class AddUserModel extends javax.swing.JFrame {
             
             // Only set ID and password for Admin role
             if ("Admin".equals(selectedRole)) {
-                user.setId((Integer) numericUpDownId.getValue());
                 user.setPassword(new String(textBoxPassword.getPassword()).trim());
             } else {
                 user.setPassword(null);  // Staff and Students are beneficiaries, not system users
