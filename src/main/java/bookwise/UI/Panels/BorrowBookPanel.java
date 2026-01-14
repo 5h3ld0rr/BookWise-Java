@@ -501,6 +501,19 @@ public class BorrowBookPanel extends javax.swing.JPanel {
 
         boolean success = bookwise.DataAccess.BookTransaction.create(userId, book.getId());
         if (success) {
+            // Calculate Due Date
+            java.time.LocalDate dueDate = java.time.LocalDate.now().plusDays(maxBooks); // Note: variable is maxBooks but logically should use MAX_DAYS_TO_RETURN
+            // Wait, common data has max days
+            int daysToReturn = bookwise.DataAccess.CommonData.Rules.MAX_DAYS_TO_RETURN;
+            String dueDateStr = java.time.LocalDate.now().plusDays(daysToReturn).format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            
+            // Send Email
+            String userName = jTextField1.getText();
+            String userEmail = jTextField3.getText();
+            String bookTitle = jTextField6.getText();
+            
+            new bookwise.Mails.BookBorrowMail(userName, bookTitle, dueDateStr).send(userEmail);
+
             javax.swing.JOptionPane.showMessageDialog(this, "Book borrowed successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
             jButton2.setText("Confirm");
             toggleBookFields(true);

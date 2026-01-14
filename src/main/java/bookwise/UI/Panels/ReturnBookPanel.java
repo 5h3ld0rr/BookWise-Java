@@ -581,7 +581,57 @@ public class ReturnBookPanel extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        int userId = (Integer) jSpinner1.getValue();
+        String isbn = (String) jComboBox1.getSelectedItem();
+
+        if (userId <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please confirm a valid user first.", "Invalid User", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (isbn == null || isbn.isEmpty()) {
+             javax.swing.JOptionPane.showMessageDialog(this, "Please select a book to return.", "Invalid Book", javax.swing.JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+
+        bookwise.DataAccess.Book[] borrowedBooks = bookwise.DataAccess.BookTransaction.getUnreturnedBooksByUser(userId);
+        bookwise.DataAccess.Book targetBook = null;
+        for (bookwise.DataAccess.Book b : borrowedBooks) {
+            if (b.getIsbn().equals(isbn)) {
+                targetBook = b;
+                break;
+            }
+        }
+
+        if (targetBook == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selected book transaction not found.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean success = bookwise.DataAccess.BookTransaction.updateReturn(targetBook.getTransactionId());
+        if (success) {
+             // Calculate details for email
+            java.time.LocalDateTime borrowDate = targetBook.getBorrowDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime();
+            bookwise.DataAccess.BookTransaction.ReturnDetails details = bookwise.DataAccess.BookTransaction.getReturnDetailsByBorrowDate(borrowDate);
+            
+            String dueDateStr = details.dueDate.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String userName = jTextField1.getText();
+            String userEmail = jTextField3.getText();
+            
+            // Send Email
+            new bookwise.Mails.BookReturnMail(userName, targetBook.getTitle(), details.daysOverdue, dueDateStr).send(userEmail);
+            
+            javax.swing.JOptionPane.showMessageDialog(this, "Book returned successfully!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            
+            // Refresh
+            populateBorrowedDropdown(userId);
+            jButton2.setText("Confirm");
+            toggleBookFields(true);
+            clearBookFields();
+            
+        } else {
+             javax.swing.JOptionPane.showMessageDialog(this, "Failed to return book.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

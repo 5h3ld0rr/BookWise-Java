@@ -449,6 +449,10 @@ public class AddUserModel extends javax.swing.JFrame {
 
             // Register the user
             if (user.register()) {
+                // Send Welcome Email
+                String fullName = user.getFirstName() + " " + user.getLastName();
+                new bookwise.Mails.UserRegisterMail(fullName).send(user.getEmail());
+
                 javax.swing.JOptionPane.showMessageDialog(this, 
                     "User added successfully!", 
                     "Success", 
