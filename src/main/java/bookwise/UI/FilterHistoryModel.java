@@ -134,7 +134,7 @@ public class FilterHistoryModel extends javax.swing.JFrame {
         });
 
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "Returned", "Unreturned" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Any", "Returned", "Not Returned" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(236, 29));
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
