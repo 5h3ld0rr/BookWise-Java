@@ -43,6 +43,8 @@ public class UsersPanel extends javax.swing.JPanel {
         
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         jScrollPane2.getViewport().setBackground(java.awt.Color.WHITE);
+        jScrollPane2.getVerticalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
+        jScrollPane2.getHorizontalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
 
         initPopupMenu();
         loadUsersToTable();
@@ -324,6 +326,18 @@ public class UsersPanel extends javax.swing.JPanel {
                         return; // Do not show popup
                     }
                     
+                    // Disable remove for self
+                    try {
+                        int id = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+                        if (bookwise.UI.HomeForm.userId != null && id == bookwise.UI.HomeForm.userId) {
+                            menuItemRemove.setEnabled(false);
+                        } else {
+                            menuItemRemove.setEnabled(true);
+                        }
+                    } catch (NumberFormatException ex) {
+                        // Ignore
+                    }
+
                     popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
@@ -362,6 +376,13 @@ public class UsersPanel extends javax.swing.JPanel {
     private void removeUser() {
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
+             int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString());
+             
+             // Check if trying to remove self - just return silently
+             if (bookwise.UI.HomeForm.userId != null && id == bookwise.UI.HomeForm.userId) {
+                 return;
+             }
+
              int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
                 "Are you sure you want to remove this user?", 
                 "Confirm Removal", 
@@ -369,7 +390,6 @@ public class UsersPanel extends javax.swing.JPanel {
              
              if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                  try {
-                     int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString());
                      User user = new User();
                      user.setId(id);
                      if (user.remove()) {

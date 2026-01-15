@@ -40,6 +40,8 @@ public class BooksPanel extends javax.swing.JPanel {
         
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         jScrollPane1.getViewport().setBackground(java.awt.Color.WHITE);
+        jScrollPane1.getVerticalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
+        jScrollPane1.getHorizontalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
         
         initPopupMenu();
         loadBooksToTable();
@@ -80,6 +82,8 @@ public class BooksPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel2.setText("All Books");
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(255, 255, 255));

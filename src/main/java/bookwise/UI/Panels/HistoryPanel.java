@@ -44,6 +44,8 @@ public class HistoryPanel extends javax.swing.JPanel {
         
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         jScrollPane2.getViewport().setBackground(java.awt.Color.WHITE);
+        jScrollPane2.getVerticalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
+        jScrollPane2.getHorizontalScrollBar().setUI(new bookwise.UI.CustomScrollBarUI());
         
         loadBookTransactionsToTable();
     }
