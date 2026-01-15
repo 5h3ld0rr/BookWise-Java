@@ -54,6 +54,11 @@ public class AddUserModel extends javax.swing.JFrame {
         txtBoxPhoneNo.setText(userToEdit.getPhone());
         textBoxAddress.setText(userToEdit.getAddress());
         comboBoxRole.setSelectedItem(userToEdit.getRole());
+        
+        // Disable role change for self
+        if (HomeForm.userId != null && userToEdit.getId() == HomeForm.userId) {
+            comboBoxRole.setEnabled(false);
+        }
     }
 
     /**
@@ -525,33 +530,38 @@ public class AddUserModel extends javax.swing.JFrame {
         String selectedRole = (String) comboBoxRole.getSelectedItem();
         if ("Admin".equals(selectedRole)) {
             String password = new String(textBoxPassword.getPassword()).trim();
-            // If editing, allow empty password (means no change)
-            if (password.isEmpty() && userToEdit == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Password is required for Admin role.", 
-                    "Validation Error", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-                textBoxPassword.requestFocus();
-                return false;
-            }
+            
+            if (password.isEmpty()) {
+                // If creating a new user, password is required
+                if (userToEdit == null) {
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Password is required for Admin role.", 
+                        "Validation Error", 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                    textBoxPassword.requestFocus();
+                    return false;
+                }
+                // If editing, empty password means no change, so we skip validation
+            } else {
+                // If password is not empty, validate it
+                if (password.length() < 6) {
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Password must be at least 6 characters long.", 
+                        "Validation Error", 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                    textBoxPassword.requestFocus();
+                    return false;
+                }
 
-            if (password.length() < 6) {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Password must be at least 6 characters long.", 
-                    "Validation Error", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-                textBoxPassword.requestFocus();
-                return false;
-            }
-
-            String confirmPassword = new String(textBoxConfirmPassword.getPassword()).trim();
-            if (!password.equals(confirmPassword)) {
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Passwords do not match.", 
-                    "Validation Error", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-                textBoxConfirmPassword.requestFocus();
-                return false;
+                String confirmPassword = new String(textBoxConfirmPassword.getPassword()).trim();
+                if (!password.equals(confirmPassword)) {
+                    javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Passwords do not match.", 
+                        "Validation Error", 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                    textBoxConfirmPassword.requestFocus();
+                    return false;
+                }
             }
         }
 
