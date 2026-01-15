@@ -85,6 +85,8 @@ public class HistoryPanel extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(255, 255, 255));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

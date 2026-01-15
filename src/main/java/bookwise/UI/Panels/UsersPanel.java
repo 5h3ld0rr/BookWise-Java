@@ -67,7 +67,7 @@ public class UsersPanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         txtSearch = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(255, 255, 254));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel1.setText("All Users");
@@ -100,6 +100,8 @@ public class UsersPanel extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(255, 255, 255));
